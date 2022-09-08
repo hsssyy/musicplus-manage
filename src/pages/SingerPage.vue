@@ -187,7 +187,7 @@ export default {
       },
       //更新图片
       uploadUrl(id) {
-        return `http://127.0.0.1:8888/consumer/updateConsumerPic?id=${id}`;
+        return `http://127.0.0.1:8888/singer/updateSingerPic?id=${id}`;
       },
     };
   },
@@ -220,7 +220,7 @@ export default {
       this.currentPage = val;
       this.getData();
     },
-    //查询所有用户  以及分页
+    //查询所有歌手  以及分页
     getData() {
       this.tableData = [],
       getSinger(this.currentPage).then((res) => {
@@ -230,7 +230,7 @@ export default {
       })
     },
     
-    //删除一个用户
+    //删除一个歌手
     deleteRow(){
       deleteSinger(this.idx)
       .then((res)=>{
@@ -291,7 +291,7 @@ export default {
             });
           this.editVisible = false;
     },
-    //添加一个用户
+    //添加一个歌手
     addNewSinger(){
       addSinger(this.registerForm)
       .then((res) => {
