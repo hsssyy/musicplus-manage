@@ -9,7 +9,7 @@ export const getLoginOut = () => get('admin/logout');
 //============用户相关===========
 
 //查询所有用户
-export const getConsumer = (pn) => get(`consumer/allConsumer?pn=${pn}`);
+export const getConsumer = (pn) => get(`consumer/allConsumer?pn=${pn}`);//之前没有传参，所以分页显示数据失败
 //删除一个用户
 export const deleteConsumer = (id) => get(`consumer/delete?id=${id}`);
 //批量删除
@@ -46,8 +46,9 @@ export const deleteSong = (id) => get(`song/deleteSong?id=${id}`);
 //批量删除
 export const deleteSomeSong = (ids) => get(`song/someDeleteSong?id=${ids}`);
 
-//
+//根据歌曲名获取歌曲对象
 export const songByName = (name) => get(`song/songByName?name=${name}`);
+
 
 //============歌单相关===========
 

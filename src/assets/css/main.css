@@ -9,7 +9,7 @@ body,
 .wrapper {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
@@ -18,12 +18,13 @@ body {
 
 a {
   text-decoration: none
-}
+} 
 
 .content-box {
   position: absolute;
   left: 129px;
   /* 原来是150px, */
+
   right: 0;
   top: 70px;
   bottom: 0;
@@ -94,4 +95,4 @@ a {
 }
 .el-dialog__body {
   padding: 10px  20px 0px 10px;
-}
+}  
