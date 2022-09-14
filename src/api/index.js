@@ -9,7 +9,7 @@ export const getLoginOut = () => get('admin/logout');
 //============用户相关===========
 
 //查询所有用户
-export const getConsumer = (pn) => get(`consumer/allConsumer?pn=${pn}`);
+export const getConsumer = (pn) => get(`consumer/allConsumer?pn=${pn}`);//之前没有传参，所以分页显示数据失败
 //删除一个用户
 export const deleteConsumer = (id) => get(`consumer/delete?id=${id}`);
 //批量删除
@@ -46,8 +46,9 @@ export const deleteSong = (id) => get(`song/deleteSong?id=${id}`);
 //批量删除
 export const deleteSomeSong = (ids) => get(`song/someDeleteSong?id=${ids}`);
 
-//
+//根据歌曲名获取歌曲对象
 export const songByName = (name) => get(`song/songByName?name=${name}`);
+
 
 //============歌单相关===========
 
@@ -74,3 +75,17 @@ export const songIdBySongListId = (songListId) => get(`listSong/songIdBySongList
 export const deleteListSong = (songId,songListId) => get(`listSong/delete?songId=${songId}&songListId=${songListId}`);
 //批量删除歌单中的歌
 export const deleteListSongs = (songIds,songListId) => get(`listSong/someDelete?songId=${songIds}&songListId=${songListId}`);
+
+//=============VIP===========
+//查询所有VIP套餐
+export const getVipTypeList = (pn) => get(`vip/allVipType?pn=${pn}`);
+//删除一个
+export const deleteVip = (id) => get(`vip/deleteVip?id=${id}`);
+//修改
+export const updateVip = (params) => post(`vip/updateVip`,params);
+//添加
+export const addVip = (params) => post(`vip/addVip`,params);
+//模糊查询套餐名
+// export const selectLikeUserName = (username)  => get(`consumer/selectLikeUserName?username=${username}`)
+
+

@@ -7,7 +7,8 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
-        <el-input  size="mini" placeholder="请输入歌曲名" class="handle-input"></el-input>
+        <el-input  size="mini" placeholder="请输入歌曲名" class="handle-input" v-model="select_value" 
+          @keyup.enter.native="searchEnter"></el-input>
         <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加歌曲</el-button>
       </div>
     </div>
@@ -22,7 +23,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog title="添加歌曲" :visible.sync="centerDialogVisible" width="400px" center>
+    <el-dialog title="添加歌曲" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center>
       <el-form :model="registerForm" ref="registerForm" label-width="80px" action="" id="tf">
         <el-form-item prop="singerName" label="歌手名字" size="mini">
           <el-input v-model="registerForm.singerName" placeholder="歌手名字"></el-input>
@@ -38,7 +39,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="删除歌曲" :visible.sync="delVisible" width="300px" center>
+    <el-dialog title="删除歌曲" :append-to-body="true" :visible.sync="delVisible" width="300px" center>
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
         <el-button size="mini" @click="delVisible = false">取消</el-button>
@@ -69,6 +70,10 @@ export default {
       
       songListId: "", //歌单id
       songIds:[],//批量删除歌曲编号
+
+      
+      // 搜索框的值(双向数据绑定)
+      select_value: "",
       
     };
   },
@@ -87,11 +92,41 @@ export default {
   //     }
   //   },
   // },
+  watch: {
+    // 监听input输入框，若没东西了，就回复默认状态
+    select_value: function () {
+      if (this.select_value == "") {
+        // 发请求回到初始列表数据状态
+        // console.log("搜索框没东西了，回复初始状态");
+        this.getData();
+      }
+    }
+  },
   created() {
     this.songListId = this.$route.query.id;
     this.getData();
   },
   methods: {
+    
+    //模糊查询（enter查询）
+    searchEnter() {
+      // 控制一下，如果用户没输入东西就不去搜索
+      if (this.select_value === "") {
+        return
+      } else {
+        // 把input带着，发请求获取有关联的数据并呈现在页面中
+        // console.log("带着关键字交给后端搜索", this.select_value);
+        this.tableData = [];
+        // var username = $("select").val;
+        // var username1 = new InputEvent(document.getElementById("select"));//不知道咋获取输入框的值  小bug
+        var username1 = this.select_value;
+        selectLikeUserName(username1).then((res) => {
+          this.tableData = res.records;
+          this.pageSize = res.size;
+          this.total = res.total;
+        })
+      }
+    },
     //查询所有歌曲
     getData() {
       this.tableData = [];

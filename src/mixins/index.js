@@ -1,9 +1,10 @@
 export const mixin = {
-    methods:{
-        notify(title,type){
+    methods: {
+        notify(title, type) {
             this.$notify({
-                title:title,
-                type:type
+                title: title,
+                type: type,
+                offset: 80//偏移量
             })
         },
         //获取性别中文
@@ -22,12 +23,12 @@ export const mixin = {
             }
             return value;
         },
-         ///根据相对地址获取绝对地址
+        ///根据相对地址获取绝对地址
         getUrl(url) {
-            return `http://127.0.0.1:8888`+`${url}`
+            return `http://127.0.0.1:8888` + `${url}`
         },
-         //弹出删除窗口
-         handleDelete(id) {
+        //弹出删除窗口
+        handleDelete(id) {
             this.idx = id;
             this.delVisible = true;
         },

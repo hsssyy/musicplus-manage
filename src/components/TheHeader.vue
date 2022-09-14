@@ -8,7 +8,7 @@
     <div class="header-right">
       <div class="btn-fullscreen" @click="handleFullScreen">
         <el-tooltip :content="fullscreen ? `取消全屏` : `全屏`"  placement="bottom">
-          <i class="el-icon-rank"></i>
+          <i class="el-icon-full-screen"></i>
         </el-tooltip>
       </div>
       <div class="user-avator">
@@ -17,7 +17,7 @@
       <el-dropdown class="user-name" trigger="click" @command="handleCommand">
         <span class="el-dropdown-link">
           {{ userName }}
-          <i class="el-icon-caret-bottom"></i>
+          <i class="el-icon-arrow-down"></i>
         </span>
 
         <el-dropdown-menu slot="dropdown">
@@ -45,11 +45,11 @@ export default {
     },
   },
   methods: {
-    //侧边栏折叠
-    collapseChange() {
-      this.collapse = !this.collapse;
-      bus.$emit("collapse", this.collapse);
-    },
+    // //侧边栏折叠
+    // collapseChange() {
+    //   this.collapse = !this.collapse;
+    //   bus.$emit("collapse", this.collapse);
+    // },
     //全屏事件
     handleFullScreen() {
       if (this.fullscreen) {
@@ -103,9 +103,11 @@ export default {
   height: 70px;
   font-size: 22px;
   color: #ffffff;
+  left: 120px;
 }
 .collapse-btn {
   float: left;
+  left: 70px;
   padding: 0 21px;
   cursor: pointer;
   line-height: 70px;
@@ -116,13 +118,13 @@ export default {
 }
 .header-right {
   float: right;
-  padding-right: 50px;
+  padding-right: 160px;
   display: flex;
   height: 70px;
   align-items: center;
 }
 .btn-fullscreen {
-  transform: rotate(45deg);
+  /*transform: rotate(45deg);*/
   margin-right: 5px;
   font-size: 24px;
 }

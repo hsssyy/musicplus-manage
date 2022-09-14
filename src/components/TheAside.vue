@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
-    <el-menu class="sider-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#334256" text-color="#ffffff" active-text-color="#20a0ff" router>
-      <!--  :collapse="collapse" -->
+    <el-menu class="sider-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#334256" text-color="#ffffff" active-text-color="#20a0ff" router> -->
+      <!--  :collapse="collapse"-->
       <template v-for="item in items">
         <template>
           <el-menu-item :index="item.index" :key="item.index">
@@ -22,24 +22,29 @@ export default {
       collapse: false,
       items: [
         {
-          icon: "el-icon-document",
+          icon: "el-icon-house",
           index: "info",
           title: "系统首页",
         },
         {
-          icon: "el-icon-document",
+          icon: "el-icon-user",
           index: "Consumer",
           title: "用户管理",
         },
         {
-          icon: "el-icon-document",
+          icon: "el-icon-mic",
           index: "Singer",
           title: "歌手管理",
         },
         {
-          icon: "el-icon-document",
+          icon: "el-icon-headset",
           index: "SongList",
           title: "歌单管理",
+        },
+        {
+          icon: "el-icon-headset",
+          index: "Roles",
+          title: "权限管理",
         },
       ],
     };
@@ -63,7 +68,7 @@ export default {
   display: block;
   position: absolute;
   left: 0;
-  top: 70px;
+  top: 0px;
   bottom: 0;
   background-color: #334256;
   overflow-y: scroll;
@@ -73,9 +78,11 @@ export default {
 }
 .sidebar-el-menu:not(.el-menu--collapse) {
   width: 150px;
+  
 }
 
 .sidebar > ul {
   height: 100%;
 }
+
 </style>

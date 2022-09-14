@@ -5,8 +5,6 @@
               <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
               <el-input size="mini" placeholder="筛选相关用户" class="handle-input" v-model="select_value" id="select"
                   @keyup.enter.native="searchEnter"></el-input>
-
-              <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加新用户</el-button>
           </div>
       </div>
 
@@ -29,19 +27,24 @@
                   {{ changeSex(scope.row.sex) }}
               </template>
           </el-table-column>
-          <el-table-column prop="email" label="电子邮箱" width="180" align="center"></el-table-column>
+          <el-table-column prop="vipStart" label="开通会员时间" width="120" align="center"></el-table-column>
+          <el-table-column prop="vipEnd" label="会员到期时间" width="120" align="center"></el-table-column>
+          <el-table-column prop="cost" label="消费总额" width="100" align="center"></el-table-column>
+          <el-table-column prop="level" label="会员等级" width="50" align="center"></el-table-column>
+          <el-table-column prop="phoneNum" label="手机号码" width="100" align="center"></el-table-column>
+          <el-table-column prop="email" label="电子邮箱" width="120" align="center"></el-table-column>
           <el-table-column  prop="birth" label="生日" width="120" align="center"></el-table-column>
           <el-table-column prop="introduction" label="签名" width="120" align="center"></el-table-column>
           <el-table-column prop="location" label="地区" width="100" align="center"></el-table-column>
-          <el-table-column label="收藏"  width="200" align="center">
+          <el-table-column label="收藏" width="100" align="center">
               <template slot-scope="scope">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="songEdit(scope.row.id, scope.row.name)"></el-button>
+                  <el-button  type="warning" icon="el-icon-star-off" circle @click="songEdit(scope.row.id, scope.row.name)"></el-button>
               </template>
           </el-table-column>
-          <el-table-column label="操作" align="center">
+          <el-table-column label="操作"  align="center">
               <template slot-scope="scope">
                   <el-button  type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
-                  <el-button  type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
+                  <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
               </template>
           </el-table-column>
       </el-table>
@@ -61,8 +64,8 @@
     <el-dialog title="删除用户" :append-to-body="true" :visible.sync="delVisible" width="300px" center>
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
-        <el-button size="mini" type="primary" @click="delVisible = false">取消</el-button>
-        <el-button size="mini"  type="danger"  @click="deleteRow">确定</el-button>
+        <el-button size="mini" @click="delVisible = false">取消</el-button>
+        <el-button size="mini" type="primary" @click="deleteRow">确定</el-button>
       </span>
     </el-dialog>
 
@@ -101,47 +104,7 @@
       </el-form>
       <span slot="footer">
         <el-button size="mini" @click="editVisible = false">取消</el-button>
-        <el-button size="mini" @click="editSave">确定</el-button>
-      </span>
-    </el-dialog>
-
-    
-    <!--添加用户弹出的对话框-->
-    <el-dialog title="添加新用户" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center>
-      <el-form :model="registerForm" ref="registerForm" label-width="80px" :rules="rules">
-        <el-form-item prop="username" label="用户名" size="mini">
-          <el-input v-model="registerForm.username" placeholder="用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="password" label="密码" size="mini">
-          <el-input v-model="registerForm.password" placeholder="密码"></el-input>
-        </el-form-item>
-
-        <el-form-item label="性别" size="mini">
-          <input type="radio" name="sex" value="0" v-model="registerForm.sex" />&nbsp;女&nbsp;&nbsp;
-          <input type="radio" name="sex" value="1" v-model="registerForm.sex" />&nbsp;男
-        </el-form-item>
-        <el-form-item prop="phoneNum" label="手机号"  size="mini" >
-          <el-input v-model="registerForm.phoneNum" placeholder="手机号"></el-input>
-        </el-form-item>
-
-        <el-form-item prop="email" label="电子邮箱" size="mini">
-          <el-input v-model="registerForm.email" placeholder="电子邮箱"></el-input>
-        </el-form-item>
-
-        <el-form-item prop="birth" label="生日" size="mini">
-          <el-date-picker type="date" v-model="registerForm.birth" placeholder="选择日期" style="width:100%">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item prop="introduction" label="签名" size="mini">
-          <el-input v-model="registerForm.introduction" placeholder="签名"></el-input>
-        </el-form-item>
-        <el-form-item prop="location" label="地区" size="mini">
-          <el-input v-model="registerForm.location" placeholder="地区"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer">
-        <el-button size="mini" @click="centerDialogVisible = false">取消</el-button>
-        <el-button type="primary" size="mini" @click="addNewConsumer">确定</el-button>
+        <el-button size="mini" type="primary" @click="editSave">确定</el-button>
       </span>
     </el-dialog>
 
@@ -153,7 +116,6 @@ import {
   getConsumer,//分页显示数据问题所在，接口那里没有传参，分页显示数据失败（已解决）
   deleteConsumer,
   updateConsumer,
-  addConsumer,
   deleteSomeConsumer,
   selectLikeUserName
 } from "../api/index";
@@ -190,41 +152,6 @@ export default {
         introduction: "",
         location: "",
       },
-      //规则
-      rules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-        ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-        phoneNum: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-        ],
-        email: [
-          { required: true, message: "请输入电子邮箱", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"],
-          },
-        ],
-        introduction: [
-          { required: true, message: "请输入签名", trigger: "blur" },
-        ],
-        location: [{ required: true, message: "请输入地区", trigger: "blur" }],
-      },
-      //添加用户的model数据
-      registerForm: {
-        username: "",
-        password: "",
-        sex: "",
-        phoneNum: "",
-        email: "",
-        birth: "",
-        introduction: "",
-        location: "",
-        avator: "/avatorImages/user.jpg"  //默认图片
-      },
-
     };
   },
   computed: {
@@ -232,21 +159,6 @@ export default {
       return this.tableData;
     },
   },
-  // watch: {//深度监听
-  //   //搜素框里面的内容发生变化的时候，搜素结果table列表的内容跟着它的内容发生变化
-  //   select_word: function () {
-  //     if (this.select_word == "") {
-  //       this.tableData = this.tempData;
-  //     } else {
-  //       this.tableData = [];
-  //       for (let item of this.tempData) {
-  //         if (item.username.includes(this.select_word)) {
-  //           this.tableData.push(item);
-  //         }
-  //       }
-  //     }
-  //   },
-  // },
   watch: {
     // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
@@ -292,19 +204,6 @@ export default {
         })
       }
     },
-    //模糊查询用户名 以及分页
-    // selectUserName() {
-    //   this.tableData = [];
-    //   // var username = $("select").val;
-    //   // var username1 = new InputEvent(document.getElementById("select"));//不知道咋获取输入框的值  小bug
-    //   var username1 = this.select_value;
-    //   selectLikeUserName(username1).then((res) => {
-    //     this.tableData = res.records;
-    //     this.pageSize = res.size;
-    //     this.total = res.total;
-    //   })
-    // },
-
     //删除一个用户
     deleteRow() {
       deleteConsumer(this.idx)
@@ -375,19 +274,6 @@ export default {
     //更新图片
     uploadUrl(id) {
       return `http://127.0.0.1:8888/consumer/updateConsumerPic?id=${id}`;
-    },
-    //添加一个用户
-    addNewConsumer() {
-      addConsumer(this.registerForm)
-        .then((res) => {
-          if (res) {
-            this.notify("添加成功", "success");
-            this.getData();
-          } else {
-            this.notify("添加失败", "error");
-          }
-        })
-      this.centerDialogVisible = false;
     },
   },
 };

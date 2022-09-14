@@ -8,8 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/main.css'
 import 'babel-polyfill'
 import VCharts from 'v-charts'
+// 引入echarts
+import * as echarts from 'echarts'
+console.log("--echarts--",echarts)
 
-
+Vue.prototype.$echarts = echarts//挂在vue原型上
 Vue.use(ElementUI)
 Vue.use(VCharts)
 
