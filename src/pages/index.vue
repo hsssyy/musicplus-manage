@@ -107,6 +107,9 @@ export default {
             var myChart2 = this.$echarts.init(chartDom2);
             var option2;
             option2 = {
+                title: {
+                        text: 'ECharts 入门示例'
+                    },
                 xAxis: {
                     data: ['A', 'B', 'C', 'D', 'E']
                 },
