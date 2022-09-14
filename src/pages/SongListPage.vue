@@ -35,23 +35,23 @@
 
       <el-table-column prop="style" label="风格" width="120" align="center"></el-table-column>
 
-      <el-table-column label="歌曲管理" align="center">
+      <el-table-column label="歌曲管理" width="250" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="songEdit(scope.row.id)">歌曲管理</el-button>
+          <el-button type="success" round  @click="songEdit(scope.row.id)">歌曲管理</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="评论" width="80" align="center">
+      <el-table-column label="评论" width="100" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="getComment(data[scope.$index].id)">评论</el-button>
+          <el-button type="info" icon="el-icon-chat-dot-round" circle  @click="getComment(data[scope.$index].id)"></el-button>
         </template>
 
       </el-table-column>
 
-      <el-table-column label="操作" width="150" align="center">
+      <el-table-column label="操作"  align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
+          <el-button  type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>

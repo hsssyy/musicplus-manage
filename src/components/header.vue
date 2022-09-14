@@ -3,30 +3,30 @@
         <div class="header">
             <i v-if="!collapse" @click="collapseChange" class="iconfont el-icon-s-fold"></i>
             <i v-else @click="collapseChange" class="iconfont el-icon-s-unfold"></i>
-        
 
-        <div class="header-right">
-            <div class="btn-fullscreen" @click="handleFullScreen">
-                <el-tooltip :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
-                    <i class="el-icon-full-screen"></i>
-                </el-tooltip>
-            </div>
-            <div class="user-avator">
-                <img src="../assets/img/user.jpg" />
-            </div>
-            <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-                <span class="el-dropdown-link">
-                    {{ userName }}
-                    <i class="el-icon-arrow-down"></i>
-                </span>
 
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+            <div class="header-right">
+                <div class="btn-fullscreen" @click="handleFullScreen">
+                    <el-tooltip :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
+                        <i class="el-icon-full-screen"></i>
+                    </el-tooltip>
+                </div>
+                <div class="user-avator">
+                    <img src="../assets/img/user.jpg" />
+                </div>
+                <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+                    <span class="el-dropdown-link">
+                        {{ userName }}
+                        <i class="el-icon-arrow-down"></i>
+                    </span>
+
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -45,6 +45,7 @@ export default {
     computed: {
         userName() {
             return localStorage.getItem("userName");
+
         },
     },
     methods: {
@@ -113,6 +114,7 @@ export default {
         font-size: 28px;
     }
 }
+
 //全屏、头像、名称和退出登录
 .header-right {
     float: right;

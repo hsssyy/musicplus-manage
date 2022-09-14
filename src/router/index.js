@@ -8,12 +8,12 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   component: resolve =>require(['../pages/Login.vue'],resolve)
-    // },
     {
       path: '/',
+      component: resolve =>require(['../pages/Login.vue'],resolve)
+    },
+    {
+      path: '/Home',
       component: resolve => require(['../components/Home.vue'], resolve),
       children: [
         {
@@ -21,12 +21,16 @@ export default new Router({
           component: resolve => require(['../pages/InfoPage.vue'], resolve)
         },
         {
-          path: '/Consumer2',
+          path: '/index',
+          component: resolve => require(['../pages/index.vue'], resolve)
+        },
+        {
+          path: '/Consumer',
           component: resolve => require(['../pages/ConsumerPage.vue'], resolve),
         },
         {
           path: '/VipConsumer',
-          component: resolve => require(['../pages/user/VipUser.vue'], resolve),
+          component: resolve => require(['../pages/VipUser.vue'], resolve),
           
         },
         {
@@ -44,6 +48,10 @@ export default new Router({
         {
           path: '/ListSong',
           component: resolve => require(['../pages/ListSongPage.vue'], resolve)
+        },
+        {
+          path: '/Vip',
+          component: resolve => require(['../pages/VipPage.vue'], resolve)
         },
         ,
         {

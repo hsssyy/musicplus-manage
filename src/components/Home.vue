@@ -31,14 +31,15 @@ export default {
 </script> -->
 
 <template>
-
-  <div class="layout">
-    <!--左侧导航区域-->
-    <aside1 class="menu" :collapse="collapse" />
-    <!--顶部内容区域-->
-    <content1 class="header" :class="{isActive:collapse}" @changeCollapse='changeCollapse' :collapse="collapse"/>
-    <!--右侧内容区域-->
-    <right1 class="right" :class="{isActive:collapse}"/>
+  <div >
+    <div class="layout">
+      <!--左侧导航区域-->
+      <aside1 class="menu" :collapse="collapse" />
+      <!--顶部内容区域-->
+      <content1 class="header" :class="{isActive:collapse}" @changeCollapse='changeCollapse' :collapse="collapse" />
+      <!--右侧内容区域-->
+      <right1 class="right" :class="{isActive:collapse}" />
+    </div>
   </div>
 </template>
 
@@ -84,7 +85,7 @@ export default {
     position: fixed; //固定定位，固定导航栏
     top: 0;
     bottom: 0;
-    z-index:20001;
+    z-index: 20001;
   }
 
   .header {
@@ -93,17 +94,18 @@ export default {
     position: fixed; //固定定位，固定顶部导航栏
     top: 0;
     width: 100%;
-    z-index:20000;
+    z-index: 20000;
   }
 
   .right {
     margin-left: 200px; //右移紧贴侧边栏
     margin-top: 60px;
-    z-index:1;
+    z-index: 1;
     width: 100%;
     height: 100%;
   }
-  .isActive{
+
+  .isActive {
     margin-left: 64px;
   }
 }

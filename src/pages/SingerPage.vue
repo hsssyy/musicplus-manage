@@ -31,16 +31,16 @@
       <el-table-column label="生日" prop="birth" width="120" align="center"></el-table-column>
       <el-table-column prop="location" label="地区" width="100" align="center"></el-table-column>
       <el-table-column prop="introduction" label="简介" width="120" align="center"></el-table-column>
-      <el-table-column label="歌曲管理" align="center">
+      <el-table-column label="歌曲管理" width="250" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="songEdit(scope.row.id, scope.row.name)">歌曲管理</el-button>
+          <el-button type="success" round  @click="songEdit(scope.row.id, scope.row.name)">歌曲管理</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="150" align="center">
+      <el-table-column label="操作"  align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
+          <el-button  type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,7 +60,7 @@
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
         <el-button size="mini" @click="delVisible = false">取消</el-button>
-        <el-button size="mini" @click="deleteRow">确定</el-button>
+        <el-button type="primary" size="mini" @click="deleteRow">确定</el-button>
       </span>
     </el-dialog>
 

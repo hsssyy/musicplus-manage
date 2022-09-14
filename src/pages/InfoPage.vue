@@ -134,6 +134,7 @@ export default {
       },
     };
   },
+  //生命周期函数
   mounted() {//执行方法（页面的所有元素加载完成之后才执行，created（）是在页面加载的时候就开始执行）
     this.getConsumer2();
     this.getSong();

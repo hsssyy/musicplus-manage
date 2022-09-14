@@ -58,7 +58,7 @@
             </el-table>
         </el-card>
         <!-- 添加角色的对话框 -->
-        <el-dialog :title="addORedit == 1 ? '新增角色' : '编辑角色信息'" :visible.sync="showAddRoleDialog" width="50%"
+        <el-dialog :title="addORedit == 1 ? '新增角色' : '编辑角色信息'" :append-to-body="true" :visible.sync="showAddRoleDialog" width="50%"
             @close="closeAddRoleDialog">
             <el-form :model="roleInfo" status-icon :rules="roleInfoRules" ref="addRoleForm" label-width="100px"
                 class="demo-ruleForm">
