@@ -1,10 +1,19 @@
 import {get,post} from './http'
 
 //管理员登录
-export const getLoginStatus = (params) => post('admin/login/status',params);
+export const getLoginStatus = (params) => post(`admin/login/status`,params);
 //管理员退出登录
-export const getLoginOut = () => get('admin/logout');
+export const getLoginOut = () => get(`admin/logout`);
 
+//============系统首页===========
+//查询所有用户总数
+export const getCountOfConsumer = () => get(`info/countConsumer`)   
+//查询所有歌曲总数
+export const getCountOfSong = () => get(`info/countSong`) 
+//查询所有歌手总数
+export const getCountOfSinger = () => get(`info/countSinger`) 
+//查询所有歌单总数
+export const getCountOfSongList = () => get(`info/countSongList`) 
 
 //============用户相关===========
 
@@ -78,7 +87,7 @@ export const deleteListSongs = (songIds,songListId) => get(`listSong/someDelete?
 
 //=============VIP===========
 //查询所有VIP套餐
-export const getVipTypeList = (pn) => get(`vip/allVipType?pn=${pn}`);
+export const getVipTypeList = () => get(`vip/allVipType`);
 //删除一个
 export const deleteVip = (id) => get(`vip/deleteVip?id=${id}`);
 //修改

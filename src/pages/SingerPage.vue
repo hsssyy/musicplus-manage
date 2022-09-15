@@ -238,10 +238,7 @@ export default {
         })
     },
     
-<<<<<<< HEAD
-    //删除一个歌手
-    deleteRow(){
-=======
+
 //模糊查询
     searchEnter() {
       // 控制一下，如果用户没输入东西就不去搜索
@@ -264,7 +261,6 @@ export default {
 
     //删除一个用户
     deleteRow() {
->>>>>>> 565888e3a7ab823d6d253252f746cd16051b89b0
       deleteSinger(this.idx)
         .then((res) => {
           if (res) {
@@ -308,10 +304,6 @@ export default {
         introduction: row.introduction,
       };
     },
-<<<<<<< HEAD
-    //添加一个歌手
-    addNewSinger(){
-=======
     //保存修改歌手信息
     editSave() {
       updateSinger(this.form)
@@ -330,7 +322,6 @@ export default {
     },
     //添加一个歌手
     addNewSinger() {
->>>>>>> 565888e3a7ab823d6d253252f746cd16051b89b0
       addSinger(this.registerForm)
         .then((res) => {
           if (res) {

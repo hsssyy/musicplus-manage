@@ -74,10 +74,14 @@
 </template>
 <script>
 import {
-  getConsumer,
+  // getConsumer,
+  getCountOfConsumer,
   // allSong,
+  getCountOfSong,
   // getAllSinger,
+  getCountOfSinger,
   // getAllSongList,
+  getCountOfSongList,
 } from "../api/index";
 
 export default {
@@ -144,7 +148,7 @@ export default {
   methods: {//声明方法
     getConsumer2() {
       //用户总数
-      getConsumer().then((res) => {
+      getCountOfConsumer().then((res) => {
         this.consumer = res;
         this.consumerCount = res.length;
         this.consumerSex.rows[0]["总数"] = this.setSex(0, this.consumer);
@@ -163,13 +167,13 @@ export default {
     },
     getSong() {
       //歌曲总数
-      allSong().then((res) => {
+      getCountOfSong().then((res) => {
         this.songCount = res.length;
       });
     },
     getSinger() {
       //歌手总数
-      getAllSinger().then((res) => {
+      getCountOfSinger().then((res) => {
         this.singerCount = res.length;
 
         this.singerSex.rows[0]["总数"] = this.setSex(0, res);
@@ -192,7 +196,7 @@ export default {
     },
     getSongList() {
       //歌单总数
-      getAllSongList().then((res) => {
+      getCountOfSongList().then((res) => {
         this.songListCount = res.length;
         for (let item of res) {
           this.getByStyle(item.style);
