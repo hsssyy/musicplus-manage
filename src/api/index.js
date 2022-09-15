@@ -4,6 +4,8 @@ import {get,post} from './http'
 export const getLoginStatus = (params) => post(`admin/login/status`,params);
 //管理员退出登录
 export const getLoginOut = () => get(`admin/logout`);
+//通过adminId 查询管理员名
+export const getNameById = (adminId) => get(`admin/getNameById?adminId=${adminId}`);
 
 //============系统首页===========
 //查询所有用户总数
@@ -87,11 +89,11 @@ export const deleteListSongs = (songIds,songListId) => get(`listSong/someDelete?
 
 //=============VIP===========
 //查询所有VIP套餐
-export const getVipTypeList = () => get(`vip/allVipType`);
+export const getVipTypeList = () => get(`vipPrice/info`);
 //删除一个
-export const deleteVip = (id) => get(`vip/deleteVip?id=${id}`);
+export const deleteVip = (id) => get(`vipPrice/delete?id=${id}`);
 //修改
-export const updateVip = (params) => post(`vip/updateVip`,params);
+export const updateVip = (params) => post(`vipPrice/update`,params);
 //添加
 export const addVip = (params) => post(`vip/addVip`,params);
 //模糊查询套餐名

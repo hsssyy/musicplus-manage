@@ -51,12 +51,16 @@
         </div> -->
 
 
-        <el-table :data="data" style="width: 100%" height="600px" :row-class-name="tableRowClassName">
+        <el-table :data="data" style="width: 100%" height="600px" :row-class-name="tableRowClassName" >
             <el-table-column prop="id" label="编号" width="180" align="center"> </el-table-column>
-            <el-table-column prop="type" label="套餐类型" width="180" align="center"></el-table-column>
+            <el-table-column prop="viptype" label="套餐类型" width="180" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"> </el-table-column>
-            <el-table-column prop="duration" label="时长" align="center"> </el-table-column>
-            <el-table-column prop="admin" label="操作管理员" align="center"> </el-table-column>
+            <el-table-column prop="viptime" label="时长" align="center"> </el-table-column>
+            <el-table-column prop="admin" label="操作管理员" align="center">
+                <template slot-scope="scope">
+                    {{ changeAdminName(scope.row.adminId) }}
+                  </template>
+            </el-table-column>
             <el-table-column prop="updateTime" label="更新时间" align="center"> </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
@@ -87,14 +91,14 @@
             @close="closeAddRoleDialog">
             <el-form :model="typeInfo" status-icon :rules="Rules" ref="typeInfo" label-width="100px"
                 class="demo-ruleForm">
-                <el-form-item label="套餐名称" prop="name">
-                    <el-input type="text" v-model.trim="typeInfo.name" autocomplete="off"></el-input>
+                <el-form-item label="套餐名称" prop="viptype">
+                    <el-input type="text" v-model.trim="typeInfo.viptype" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="套餐价格" prop="price">
                     <el-input type="text" v-model.trim="typeInfo.price" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="套餐时长" prop="duration">
-                    <el-input type="text" v-model.trim="typeInfo.duration" autocomplete="off"></el-input>
+                <el-form-item label="套餐时长" prop="viptime">
+                    <el-input type="text" v-model.trim="typeInfo.viptime" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="操作管理员" prop="admin">
                     <!-- 获取当前登录的管理员的账号名 -->
@@ -147,7 +151,8 @@
 </template>
 
 <script>
-import { getVipTypeList, addVip, deleteVip, updateVip } from "../api/index";
+import { success } from "log-symbols";
+import { getVipTypeList, addVip, deleteVip, updateVip ,getNameById} from "../api/index";
 const admin = "";
 export default {
     data() {
@@ -170,6 +175,8 @@ export default {
             centerDialogVisible: false,//添加新用户
             tableData: [],//VIP数据库表数据
 
+       
+
 
             // 搜索框的值(双向数据绑定)
             // select_value: "",
@@ -182,7 +189,9 @@ export default {
                 id: '',
                 name: '',
                 price: '',
-                duration: '',
+                viptime: '',
+                viptype:'',
+                updateTime:'',//更新时间
             },
             // 应用验证规则
             Rules: {
@@ -231,25 +240,37 @@ export default {
         getData() {
             this.tableData = [],
                 getVipTypeList().then((res) => {
-                    this.tableData = res.records;
+                    this.tableData = res;
                     // this.pageSize = res.size;
                     // this.total = res.total;
                 })
+        },
+        changeAdminName(adminId){
+            var adminname = null;
+            getNameById(adminId).then(res =>{
+                if(res){
+                    adminname = res.name;//这里已经能拿到数据了
+                    // this.$alert(adminname)
+                }
+            })
+            //  this.$alert(adminname);
+            return adminname;//上面的请求能查到管理员名，但是不知道咋获取if 里面的数据 然后返回。
         },
         //弹出编辑页面
         handleEdit(row) {
             this.showAddRoleDialog = true;
             this.typeInfo = {
                 id: row.id,
-                name: row.name,
+                viptype: row.viptype,
                 price: row.price,
-                duration: row.duration,
+                viptime: row.viptime,
                 admin: this.userName//更新时间直接在后台获取，然后加入数据库再展示出来
 
             }
         },
         //保存修改的信息
-        editSave() {
+        addNewVip() {
+            this.typeInfo.updateTime = new Date(); 
             updateVip(this.typeInfo)
                 .then((res) => {
                     if (res) {
@@ -265,6 +286,18 @@ export default {
             this.showAddRoleDialog = false;
         },
 
+        //删除一个
+        handleDelete(id){
+            deleteVip(id).then(res =>{
+                if(res.code==1){
+                    this.$notify("删除成功",success)
+                    this.getVipTypeList();
+                }else{
+                    this.$notify("删除失败",success)
+                }
+                
+            })
+        }
         // 获取所有角色数据
         // async getVipTypeList() {
         //     const { data: res } = await this.$http.get('roles')
