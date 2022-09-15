@@ -9,9 +9,8 @@
               <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加新用户</el-button>
           </div>
       </div>
-
-      <el-table size="mini" border style="width: 100%" height="600px" :data="data"
-          @selection-change="handleSelectionChange">
+<!-- 用户表 -->
+      <el-table size="mini" border style="width: 100%" height="600px" :data="data" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="40"></el-table-column>
           <el-table-column label="用户图片" width="110" align="center">
               <template slot-scope="scope">
@@ -107,7 +106,7 @@
 
     
     <!--添加用户弹出的对话框-->
-    <el-dialog title="添加新用户" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center>
+    <el-dialog title="添加新用户" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center  @close="closeDialog">
       <el-form :model="registerForm" ref="registerForm" label-width="80px" :rules="rules">
         <el-form-item prop="username" label="用户名" size="mini">
           <el-input v-model="registerForm.username" placeholder="用户名"></el-input>
@@ -140,7 +139,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini" @click="centerDialogVisible = false">取消</el-button>
+        <el-button size="mini" @click="resetForm">取消</el-button>
         <el-button type="primary" size="mini" @click="addNewConsumer">确定</el-button>
       </span>
     </el-dialog>
@@ -165,7 +164,7 @@ export default {
       delVisible: false, //删除弹窗是否显示
       editVisible: false,//编辑弹窗是否显示
       centerDialogVisible: false,//添加新用户
-      tableData: [],
+      tableData: [],//数据库表数据
       //分页设置
       currentPage: 0,//当前页
       pageSize: 0,//分页的每页显示多少个
@@ -222,14 +221,14 @@ export default {
         birth: "",
         introduction: "",
         location: "",
-        avator: "/avatorImages/user.jpg"  //默认图片
+        avator: "/avatorImages/user.jpg"  //默认图片,现在拿不到默认图片了？？？
       },
 
     };
   },
   computed: {
     data() {
-      return this.tableData;
+      return this.tableData;//查找数据库数据
     },
   },
   // watch: {//深度监听
@@ -251,8 +250,6 @@ export default {
     // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
       if (this.select_value == "") {
-        // 发请求回到初始列表数据状态
-        // console.log("搜索框没东西了，回复初始状态");
         this.getData();
       }
     }
@@ -389,6 +386,34 @@ export default {
         })
       this.centerDialogVisible = false;
     },
+
+
+
+    // 收藏功能未实现
+
+    // 关闭添加用户的弹窗，置空表单
+    closeDialog() {
+      this.registerForm.username = ''
+      this.registerForm.password = ''
+      this.registerForm.sex = ''
+      this.registerForm.phoneNum = ''
+      this.registerForm.email = ''
+      this.registerForm.birth = ''
+      this.registerForm.introduction = ''
+      this.registerForm.location = ''
+      this.$refs.registerForm.resetFields()
+    },
+
+    // 点击取消，置空表单数据
+    resetForm() {
+      this.centerDialogVisible = false
+      this.closeAddRoleDialog()
+
+    },
+
+
+
+    
   },
 };
 </script>

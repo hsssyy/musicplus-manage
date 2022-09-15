@@ -113,7 +113,7 @@
 
 <script>
 import {
-  getConsumer,//分页显示数据问题所在，接口那里没有传参，分页显示数据失败（已解决）
+  getConsumer,//这里用的还是用户表
   deleteConsumer,
   updateConsumer,
   deleteSomeConsumer,
@@ -163,8 +163,6 @@ export default {
     // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
       if (this.select_value == "") {
-        // 发请求回到初始列表数据状态
-        // console.log("搜索框没东西了，回复初始状态");
         this.getData();
       }
     }

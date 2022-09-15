@@ -122,6 +122,7 @@ export default {
     display: flex;
     // height: 70px;
     align-items: center;
+
 }
 
 .btn-fullscreen {
