@@ -51,7 +51,7 @@
         </div> -->
 
 
-        <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+        <el-table :data="data" style="width: 100%" height="600px" :row-class-name="tableRowClassName">
             <el-table-column prop="id" label="编号" width="180" align="center"> </el-table-column>
             <el-table-column prop="type" label="套餐类型" width="180" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"> </el-table-column>
@@ -85,7 +85,7 @@
         <!-- 添加用户弹出的对话框  id设置自增，套餐名要不要设置套餐+自增字段？？ -->
         <el-dialog :title="编辑套餐信息" :append-to-body="true" :visible.sync="showAddRoleDialog" width="50%"
             @close="closeAddRoleDialog">
-            <el-form :model="typeInfo" status-icon :rules="Rules" ref="addRoleForm" label-width="100px"
+            <el-form :model="typeInfo" status-icon :rules="Rules" ref="typeInfo" label-width="100px"
                 class="demo-ruleForm">
                 <el-form-item label="套餐名称" prop="name">
                     <el-input type="text" v-model.trim="typeInfo.name" autocomplete="off"></el-input>
@@ -174,7 +174,7 @@ export default {
             // 搜索框的值(双向数据绑定)
             // select_value: "",
 
-            showAddRoleDialog: false,
+            showAddRoleDialog: false,//对话框默认不显示
 
 
             // 用于存储编辑套餐对话框中的数据
@@ -201,18 +201,27 @@ export default {
 
         };
     },
-    created() {
-        this.getData();
-    },
+
+
     computed: {//存在缓存，不经常变化的在此操作
         //获取用户名
         userName() {
-            return localStorage.getItem("userName");
+            return localStorage.getItem("userName");//拿到管理员账号名
+            // return localStorage.getItem("id");//拿不到id,存储在本地的是输入的用户名，若是在数据库查找，可以拿到管理员id
 
         },
+        //查找数据库表数据
+        data() {
+            return this.tableData;
+        },
     },
-    methods: {
 
+
+    created() {
+        this.getData();
+    },
+
+    methods: {
         //获取当前页
         // handleCurrentChange(val) {
         //     this.currentPage = val;
@@ -226,6 +235,34 @@ export default {
                     // this.pageSize = res.size;
                     // this.total = res.total;
                 })
+        },
+        //弹出编辑页面
+        handleEdit(row) {
+            this.showAddRoleDialog = true;
+            this.typeInfo = {
+                id: row.id,
+                name: row.name,
+                price: row.price,
+                duration: row.duration,
+                admin: this.userName//更新时间直接在后台获取，然后加入数据库再展示出来
+
+            }
+        },
+        //保存修改的信息
+        editSave() {
+            updateVip(this.typeInfo)
+                .then((res) => {
+                    if (res) {
+                        this.notify("修改成功", "success");
+                        this.getVipTypeList();
+                    } else {
+                        this.notify("修改失败", "error");
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            this.showAddRoleDialog = false;
         },
 
         // 获取所有角色数据
@@ -277,36 +314,9 @@ export default {
         //     }
         // },
 
-        //弹出编辑页面
-        handleEdit(row) {
-            this.showAddRoleDialog = true;
-            this.typeInfo = {
-                id: row.id,
-                name: row.name,
-                price: row.price,
-                duration: row.duration,
-                admin:this.userName//更新时间直接在后台获取，然后加入数据库再展示出来
-                
-            }
-        },
-                //保存修改的信息
-                editSave() {
-                updateVip(this.form)
-                    .then((res) => {
-                        if (res) {
-                            this.notify("修改成功", "success");
-                            this.getVipTypeList();
-                        } else {
-                            this.notify("修改失败", "error");
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-                this.showAddRoleDialog = false;
-            },
-        },
-    }
+
+    },
+}
 
 </script>
 

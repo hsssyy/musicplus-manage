@@ -143,7 +143,7 @@ export default {
       editVisible: false, //编辑框是否显示
       delVisible: false,//删除提示框
 
-      
+
       // 搜索框的值(双向数据绑定)
       select_value: "",
 
@@ -349,6 +349,7 @@ export default {
       })
       this.delVisible = false;
     },
+
   },
 };
 </script>
