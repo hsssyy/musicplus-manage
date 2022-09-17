@@ -47,13 +47,13 @@
 
         <div>
             <div class="chart">
-                <div id="c1" class="chart1" style="width: 800px;height: 300px;background:#fff ;"> </div>
-                <div id="c6" class="chart6" style="width: 400px;height: 300px;background:#fff ;"> </div>
-                <div id="c2" class="chart2" style="width: 400px;height: 300px;background:#fff ;"> </div>
+                <div id="c1" class="chart1" style="width: 50%;height: 300px;background:#fff ;"> </div>
+                <div id="c6" class="chart6" style="width: 30%;height: 300px;background:#fff ;"> </div>
+                <div id="c2" class="chart2" style="width: 30%;height: 300px;background:#fff ;"> </div>
             </div>
             <div class="chart3">
-                <div id="c4" class="chart4" style="width: 800px;height: 300px;background:#fff ;"> </div>
-                <div id="c5" class="chart5" style="width: 400px;height: 300px;background:#fff ;">
+                <div id="c4" class="chart4" style="width: 50%;height: 300px;background:#fff ;"> </div>
+                <div id="c5" class="chart5" style="width: 30%;height: 300px;background:#fff ;">
                     <div>
                         <i class="el-icon-setting"></i>
                         <span slot="title">导航</span> {{ songListCount }}
@@ -72,7 +72,7 @@
                     </div>
 
                 </div>
-                <div id="c7" class="chart7" style="width: 400px;height: 300px;background:#fff ;"> </div>
+                <div id="c7" class="chart7" style="width: 30%;height: 300px;background:#fff ;"> </div>
 
             </div>
         </div>
@@ -119,7 +119,8 @@ export default {
                         type: 'bar',
                         data: [23, 24, 18, 25, 18],
                         barGap: '20%',
-                        barCategoryGap: '40%'
+                        barCategoryGap: '40%',
+                        
                     },
                     {
                         type: 'bar',
@@ -128,6 +129,11 @@ export default {
                 ]
             };
             option2 && myChart2.setOption(option2);
+            window.addEventListener("resize",()=>{
+                if(myChart2){
+                    myChart2.resize()
+                }
+            })
             // 基于准备好的dom，初始化echarts实例
             //     var myChart = this.$echarts.init(document.getElementById('c1'));
             //     // 绘制图表
@@ -203,6 +209,11 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
+            window.addEventListener("resize",()=>{
+                if(myChart2){
+                    myChart2.resize()
+                }
+            })
 
         },
         line2() {
@@ -252,6 +263,11 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
+            window.addEventListener("resize",()=>{
+                if(myChart2){
+                    myChart2.resize()
+                }
+            })
 
         },
         line3() {
@@ -281,6 +297,11 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
+            window.addEventListener("resize",()=>{
+                if(myChart2){
+                    myChart2.resize()
+                }
+            })
 
         },
         line5() {
@@ -337,6 +358,11 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
+            window.addEventListener("resize",()=>{
+                if(myChart2){
+                    myChart2.resize()
+                }
+            })
 
         }
 
@@ -352,12 +378,27 @@ export default {
 
 .chart {
     display: flex;
+    /*设置为弹性盒*/
     align-items: center;
     margin-top: 20px;
     margin-left: 20px;
+    height: 300px;
+    width: 100%;
 }
 
+
+.chart1 {
+    display: flex;/*设置为弹性盒*/
+
+
+}
+.chart6 {
+    display: flex;/*设置为弹性盒*/
+
+
+}
 .chart2 {
+    display: flex;/*设置为弹性盒*/
     margin-left: 40px;
     /* margin-top: 20px; */
 
@@ -368,13 +409,21 @@ export default {
     align-items: center;
     margin-top: 20px;
     margin-left: 20px;
+    height: 300px;
+    width: 100%;
 }
 
 .chart5 {
+    display: flex;
+    margin-left: 30px;
+}
+.chart4 {
+    display: flex;
     margin-left: 30px;
 }
 
 .chart7 {
+    display: flex;
     margin-left: 30px;
 }
 
