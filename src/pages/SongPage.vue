@@ -78,6 +78,13 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="设置为Vip歌曲" width="150" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="set_Vip(scope.row.id,scope.row.set_vip)">设置</el-button>
+          <el-button size="mini" @click="re_Vip(scope.row.id,scope.row.set_vip)">移除</el-button>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作" width="150" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
@@ -289,6 +296,7 @@ export default {
       }
     },
 
+
     //弹出编辑页面
     handleEdit(row) {
       this.editVisible = true;
@@ -315,7 +323,38 @@ export default {
         });
       this.editVisible = false;
     },
+    set_Vip() {
 
+    },
+    //设置为vip歌曲
+    set_Vip(id, set_vip) {
+      if (set_vip == 1) {
+        this.notify("该歌曲已是Vip歌曲，不可设置", "warnning")
+      }
+      setVip(id).then(res => {
+        if (res.code == 1) {
+          this.notify("设置Vip歌曲成功", "success")
+          this.getVipTypeList();
+        } else {
+          this.notify("设置Vip歌曲失败", "error")
+        }
+      })
+    },
+    //设置为非vip歌曲
+    re_Vip(id, set_vip) {
+      if (set_vip == 0) {
+        this.notify("该歌曲不是Vip歌曲，不可移除 ","warnning")
+      }
+      removeVip(id).then(res => {
+        if (res.code == 1) {
+          this.notify("移除Vip歌曲成功", "success")
+          this.getVipTypeList();
+        }else {
+          this.notify("移除Vip歌曲失败", "error")
+        }
+      })
+
+    },
     //删除一首歌曲
     deleteRow() {
       deleteSong(this.idx)
