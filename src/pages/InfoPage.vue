@@ -66,7 +66,7 @@
       <el-col :span="12">
         <h3 class="mgb20">歌手国籍分布</h3>
         <div style="background-color: white">
-          <ve-histogram :data="country"></ve-histogram>
+          <ve-line :data="country"></ve-line>
         </div>
       </el-col>
     </el-row>
@@ -93,6 +93,7 @@ export default {
       songListCount: 0, //歌单数量
 
       consumer: [], //拿回的所有用户是一个数组，需要进行一个数据转换，取其长度即为用户总数
+    
       consumerSex: {
         //按性别分类的用户
         columns: ["性别", "总数"],

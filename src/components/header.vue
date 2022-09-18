@@ -86,12 +86,11 @@ export default {
         },
         handleCommand(command) {
             if (command == "logout") {
-                // localStorage.removeItem("userName");
-                // this.$router.push("/");
-
                 //这是后台退出登录
                 getLoginOut().then((res) => {
                     if (res.code == 2) {
+                        localStorage.removeItem("userName");
+                        localStorage.removeItem("userId");
                         this.notify("退出登录成功", "success");
                         this.$router.push("/");
                     }

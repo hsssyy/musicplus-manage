@@ -46,8 +46,7 @@ export default {
         .then((res) => {
           if (res.code == 1) {
             localStorage.setItem('userName', res.adminMsg.name);
-            localStorage.setItem('Id', res.adminMsg.id);
-            console.log(res.adminMsg.name)
+            localStorage.setItem('userId', res.adminMsg.id);
             this.$router.push("/Info");
             this.notify("登录成功", "success");
           } else {

@@ -15,8 +15,8 @@
 
     <el-table size="mini" border style="width: 100%" height="600px" :data="tableData" @selection-change="handelSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
-      <el-table-column prop="name" label="歌手-歌名" width="120" align="center"></el-table-column>
-      <el-table-column label="操作" width="150" align="center">
+      <el-table-column prop="name" label="歌手-歌名" width=auto align="center"></el-table-column>
+      <el-table-column label="操作" width=auto align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
@@ -35,7 +35,7 @@
       </el-form>
       <span slot="footer">
         <el-button size="mini" @click="centerDialogVisible = false">取消</el-button>
-        <el-button size="mini" @click="getSongId">确定</el-button>
+        <el-button size="mini" type="primary" @click="getSongId">确定</el-button>
       </span>
     </el-dialog>
 

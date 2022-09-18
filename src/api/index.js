@@ -105,3 +105,11 @@ export const addVip = (params) => post(`vip/addVip`,params);
 export const getVipInfo =(userId) => get(`vip/selectTime?userId=${userId}`);
 
 
+
+//=============评论===========
+export const getComment = (params) => post(`comment/getCom`,params);//获取评论
+export const updateComment = (params) => post(`comment/updataCom`,params);//更新（编辑后）
+export const deleteComment = (params) => post(`comment/delComment`,params);//删除单个
+export const deleteSomeComment = (ids) => get(`comment/someDelete?id=${ids}`);//删除所有
+
+

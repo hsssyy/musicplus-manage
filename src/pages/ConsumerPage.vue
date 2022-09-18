@@ -34,7 +34,7 @@
           <el-table-column prop="location" label="地区" width="100" align="center"></el-table-column>
           <el-table-column label="收藏"  width="200" align="center">
               <template slot-scope="scope">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="songEdit(scope.row.id, scope.row.name)"></el-button>
+                  <el-button type="warning" icon="el-icon-star-off" circle @click="goCollect(scope.row.id, scope.row.name)"></el-button>
               </template>
           </el-table-column>
           <el-table-column label="操作" align="center">
@@ -323,7 +323,6 @@ export default {
       this.ids = selection.map(item => item.id)
     },
     delAll() {
-
       deleteSomeConsumer(this.ids).then((res) => {
         if (res) {
           this.notify("删除成功", "sucess");
@@ -390,6 +389,10 @@ export default {
 
 
     // 收藏功能未实现
+          //转向收藏
+          goCollect(id, name) {
+            this.$router.push({ path: `/Collect`, query: { id, name } });
+        },
 
     // 关闭添加用户的弹窗，置空表单
     closeDialog() {

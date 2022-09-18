@@ -24,7 +24,7 @@
                     <el-menu-item-group>
                         <el-menu-item index="/Consumer">
                             <i class="el-icon-menu"></i>
-                            <span slot="title">普通用户</span>
+                            <span slot="title">全部用户</span>
                         </el-menu-item>
                         <el-menu-item index="/VipConsumer">
                             <i class="el-icon-menu"></i>

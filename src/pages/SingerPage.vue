@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <el-table size="mini" border style="width: 100%" height="600px" :data="data"
+    <el-table size="mini" border style="width: 100%" height="700px" :data="data"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column label="歌手图片" width="110" align="center">

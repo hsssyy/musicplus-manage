@@ -40,6 +40,14 @@ export default new Router({
         {
           path: '/Song',
           component: resolve => require(['../pages/SongPage.vue'], resolve)
+        }, 
+        {
+          path: '/Collect',
+          component: resolve => require(['../pages/Collect.vue'], resolve)
+        },
+        {
+          path: '/Comment',
+          component: resolve => require(['../pages/Comment.vue'], resolve)
         },
         {
           path: '/SongList',

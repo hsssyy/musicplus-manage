@@ -82,7 +82,16 @@
 </template>
 
 <script>
-
+import {
+    // getConsumer,
+    getCountOfConsumer,
+    // allSong,
+    getCountOfSong,
+    // getAllSinger,
+    getCountOfSinger,
+    // getAllSongList,
+    getCountOfSongList,
+} from "../api/index";
 export default {
     data() {
         return {
@@ -90,9 +99,17 @@ export default {
             songCount: 0, //歌曲总数
             singerCount: 0, //歌手数量
             songListCount: 0, //歌单数量
-        }
+        
+            consumerSex: {
+            //按性别分类的用户
+            columns: ["性别", "总数"],
+                rows: [
+                    { 性别: "女", 总数: 0 },
+                    { 性别: "男", 总数: 0 },
+                ],
+        },
+    }
     },
-
     mounted() {
         this.bar();
         this.line();
@@ -102,14 +119,37 @@ export default {
 
     },
     methods: {
+        getConsumer2() {
+            //用户总数
+            getCountOfConsumer().then((res) => {
+                this.consumer = res;
+                this.consumerCount = res.length;
+                this.consumerSex.rows[0]["总数"] = this.setSex(0, this.consumer);
+                this.consumerSex.rows[1]["总数"] = this.setSex(1, this.consumer);
+            });
+        },
+        setSex(sex, val) {
+            //根据性别获取用户数
+            let count = 0;
+            for (let item of val) {
+                if (sex == item.sex) {
+                    count++;
+                }
+            }
+            return count;
+        },
+
+
+
+
         bar() {
             var chartDom2 = document.getElementById('c1');
             var myChart2 = this.$echarts.init(chartDom2);
             var option2;
             option2 = {
                 title: {
-                        text: 'ECharts 入门示例'
-                    },
+                    text: 'ECharts 入门示例'
+                },
                 xAxis: {
                     data: ['A', 'B', 'C', 'D', 'E']
                 },
@@ -120,7 +160,7 @@ export default {
                         data: [23, 24, 18, 25, 18],
                         barGap: '20%',
                         barCategoryGap: '40%',
-                        
+
                     },
                     {
                         type: 'bar',
@@ -129,37 +169,12 @@ export default {
                 ]
             };
             option2 && myChart2.setOption(option2);
-            window.addEventListener("resize",()=>{
-                if(myChart2){
+            window.addEventListener("resize", () => {
+                if (myChart2) {
                     myChart2.resize()
                 }
             })
-            // 基于准备好的dom，初始化echarts实例
-            //     var myChart = this.$echarts.init(document.getElementById('c1'));
-            //     // 绘制图表
-            //     myChart.setOption({
-            //         title: {
-            //             text: 'ECharts 入门示例'
-            //         },
-            //         tooltip: {},//提示框
-            //         xAxis: {
-            //             data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-            //             // axisLine: {
-            //             //     show: false, //隐藏y轴
-            //             // },
-            //             // axisTick: {
-            //             //     show: false,  //刻度线
-            //             // },
-            //         },
-            //         yAxis: {},
-            //         series: [
-            //             {
-            //                 name: '销量',
-            //                 type: 'bar',
-            //                 data: [5, 20, 36, 10, 10, 20]
-            //             }
-            //         ]
-            //     });
+
         },
         line() {
             var chartDom2 = document.getElementById('c2');
@@ -209,8 +224,8 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
-            window.addEventListener("resize",()=>{
-                if(myChart2){
+            window.addEventListener("resize", () => {
+                if (myChart2) {
                     myChart2.resize()
                 }
             })
@@ -255,7 +270,7 @@ export default {
                             show: false
                         },
                         data: [
-                            { value: 1048, name: 'Search Engine' },
+                            { value:1233, name: 'Search Engine' },
                             { value: 735, name: 'Direct' },
                         ]
                     }
@@ -263,8 +278,8 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
-            window.addEventListener("resize",()=>{
-                if(myChart2){
+            window.addEventListener("resize", () => {
+                if (myChart2) {
                     myChart2.resize()
                 }
             })
@@ -297,8 +312,8 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
-            window.addEventListener("resize",()=>{
-                if(myChart2){
+            window.addEventListener("resize", () => {
+                if (myChart2) {
                     myChart2.resize()
                 }
             })
@@ -358,8 +373,8 @@ export default {
             };
 
             option2 && myChart2.setOption(option2);
-            window.addEventListener("resize",()=>{
-                if(myChart2){
+            window.addEventListener("resize", () => {
+                if (myChart2) {
                     myChart2.resize()
                 }
             })
@@ -374,6 +389,7 @@ export default {
 .box {
     margin-top: 10px;
     margin-left: 20px;
+    margin-right: 20px;
 }
 
 .chart {
@@ -381,25 +397,33 @@ export default {
     /*设置为弹性盒*/
     align-items: center;
     margin-top: 20px;
+    margin-right: 20px;
     margin-left: 20px;
     height: 300px;
-    width: 100%;
+    width: 96%;
+    margin-right: 20px;
 }
 
 
 .chart1 {
-    display: flex;/*设置为弹性盒*/
+    display: flex;
+    /*设置为弹性盒*/
 
 
 }
+
 .chart6 {
-    display: flex;/*设置为弹性盒*/
+    display: flex;
+    /*设置为弹性盒*/
 
 
 }
+
 .chart2 {
-    display: flex;/*设置为弹性盒*/
-    margin-left: 40px;
+    display: flex;
+    /*设置为弹性盒*/
+    margin-left: 20px;
+
     /* margin-top: 20px; */
 
 }
@@ -408,15 +432,17 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 20px;
+    margin-right: 20px;
     margin-left: 20px;
     height: 300px;
-    width: 100%;
+    width: 96%;
 }
 
 .chart5 {
     display: flex;
     margin-left: 30px;
 }
+
 .chart4 {
     display: flex;
     margin-left: 30px;

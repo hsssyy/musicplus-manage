@@ -6,12 +6,11 @@
         </el-button>
         <el-input size="mini" placeholder="筛选关键词" class="handle-input" v-model="select_value"
           @keyup.enter.native="searchEnter"></el-input>
-        <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加歌单 </el-button>
+        <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加歌单</el-button>
       </div>
     </div>
 
-    <el-table size="mini" border style="width: 100%" height="600px" :data="data"
-      @selection-change="handleSelectionChange">
+    <el-table size="mini" border style="width: 100% height=90%" :data="data" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column label="歌单图片" width="110" align="center">
         <template slot-scope="scope">
@@ -37,21 +36,23 @@
 
       <el-table-column label="歌曲管理" width="250" align="center">
         <template slot-scope="scope">
-          <el-button type="success" round  @click="songEdit(scope.row.id)">歌曲管理</el-button>
+          <el-button type="success" round @click="songEdit(scope.row.id)">歌曲管理</el-button>
         </template>
       </el-table-column>
 
       <el-table-column label="评论" width="100" align="center">
         <template slot-scope="scope">
-          <el-button type="info" icon="el-icon-chat-dot-round" circle  @click="getComment(data[scope.$index].id)"></el-button>
+          <el-button type="info" icon="el-icon-chat-dot-round" circle @click="getComment(scope.row.song_list_id)"></el-button>
+          <!-- <el-button type="info" icon="el-icon-chat-dot-round" circle @click="getComment(data[scope.$index].id)"> -->
+          <!-- </el-button> -->
         </template>
 
       </el-table-column>
 
-      <el-table-column label="操作"  align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
-          <el-button  type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,7 +69,7 @@
         layout="total,prev,pager,next" @current-change="handleCurrentChange"></el-pagination>
     </div>
 
-    <el-dialog title="添加歌单"  :append-to-body="true"  :visible.sync="centerDialogVisible" width="400px" center>
+    <el-dialog title="添加歌单" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center>
       <el-form :model="registerForm" ref="registerForm" label-width="80px">
         <el-form-item prop="title" label="标题" size="mini">
           <el-input v-model="registerForm.title" placeholder="标题"></el-input>
@@ -87,7 +88,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="修改歌单"  :append-to-body="true"  :visible.sync="editVisible" width="400px" center>
+    <el-dialog title="修改歌单" :append-to-body="true" :visible.sync="editVisible" width="400px" center>
       <el-form :model="form" ref="form" label-width="80px">
         <el-form-item prop="title" label="标题" size="mini">
           <el-input v-model="form.title" placeholder="标题"></el-input>
@@ -106,7 +107,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="删除歌单"  :append-to-body="true"  :visible.sync="delVisible" width="300px" center>
+    <el-dialog title="删除歌单" :append-to-body="true" :visible.sync="delVisible" width="300px" center>
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
         <el-button size="mini" @click="delVisible = false">取消</el-button>
@@ -132,7 +133,7 @@ export default {
       centerDialogVisible: false, //添加弹窗是否显示
       editVisible: false, //编辑弹窗是否显示
       delVisible: false, //删除弹窗是否显示
-      
+
       // 搜索框的值(双向数据绑定)
       select_value: "",
 
@@ -166,27 +167,10 @@ export default {
       return this.tableData;
     },
   },
-  // watch: {
-  //   //搜素框里面的内容发生变化的时候，搜素结果table列表的内容跟着它的内容发生变化
-  //   select_word: function () {
-  //     if (this.select_word == "") {
-  //       this.tableData = this.tempData;
-  //     } else {
-  //       this.tableData = [];
-  //       for (let item of this.tempData) {
-  //         if (item.title.includes(this.select_word)) {
-  //           this.tableData.push(item);
-  //         }
-  //       }
-  //     }
-  //   },
-  // },
+  // 监听input输入框
   watch: {
-    // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
       if (this.select_value == "") {
-        // 发请求回到初始列表数据状态
-        // console.log("搜索框没东西了，回复初始状态");
         this.getData();
       }
     }
@@ -209,7 +193,7 @@ export default {
           this.total = res.total;
         })
     },
-//模糊查询（根据文本框的值去查询）
+    //模糊查询（根据文本框的值去查询）
     searchEnter() {
       // 控制一下，如果用户没输入东西就不去搜索
       if (this.select_value === "") {
@@ -305,8 +289,8 @@ export default {
       this.$router.push({ path: `/ListSong`, query: { id } });
     },
     //转向该歌单的评论列表
-    getComment(id) {
-      this.$router.push({ path: `/comment`, query: { id } });
+    getComment(song_list_id) {
+      this.$router.push({ path: `/Comment`, query: { song_list_id } });
     }
   },
 };
