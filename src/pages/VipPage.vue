@@ -173,7 +173,6 @@ export default {
             centerDialogVisible: false,//添加新用户
             tableData: [],//VIP数据库表数据
 
-            adminName:"",
 
 
             // 搜索框的值(双向数据绑定)
