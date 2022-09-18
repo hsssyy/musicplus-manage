@@ -51,16 +51,13 @@
         </div> -->
 
 
-        <el-table :data="data" style="width: 100%" height="600px" :row-class-name="tableRowClassName" >
+        <el-table :data="data" style="width: 100%" height="600px"  >
+            <!-- :row-class-name="tableRowClassName" -->
             <el-table-column prop="id" label="编号" width="180" align="center"> </el-table-column>
             <el-table-column prop="viptype" label="套餐类型" width="180" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"> </el-table-column>
             <el-table-column prop="viptime" label="时长" align="center"> </el-table-column>
-            <el-table-column prop="admin" label="操作管理员" align="center">
-                <template slot-scope="scope">
-                    {{ changeAdminName(scope.row.adminId) }}
-                  </template>
-            </el-table-column>
+            <el-table-column prop="adminId" label="管理员工号" align="center"></el-table-column>
             <el-table-column prop="updateTime" label="更新时间" align="center"> </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
@@ -153,8 +150,9 @@
 <script>
 import { success } from "log-symbols";
 import { getVipTypeList, addVip, deleteVip, updateVip ,getNameById} from "../api/index";
-const admin = "";
+import { mixin } from "../mixins";
 export default {
+    mixins: [mixin],
     data() {
         return {
 
@@ -175,7 +173,7 @@ export default {
             centerDialogVisible: false,//添加新用户
             tableData: [],//VIP数据库表数据
 
-       
+            adminName:"",
 
 
             // 搜索框的值(双向数据绑定)
@@ -224,10 +222,8 @@ export default {
             return this.tableData;
         },
     },
-
-
     created() {
-        this.getData();
+         this.getData();
     },
 
     methods: {
@@ -245,17 +241,7 @@ export default {
                     // this.total = res.total;
                 })
         },
-        changeAdminName(adminId){
-            var adminname = null;
-            getNameById(adminId).then(res =>{
-                if(res){
-                    adminname = res.name;//这里已经能拿到数据了
-                    // this.$alert(adminname)
-                }
-            })
-            //  this.$alert(adminname);
-            return adminname;//上面的请求能查到管理员名，但是不知道咋获取if 里面的数据 然后返回。
-        },
+        
         //弹出编辑页面
         handleEdit(row) {
             this.showAddRoleDialog = true;

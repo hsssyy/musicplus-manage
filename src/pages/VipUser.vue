@@ -27,10 +27,18 @@
                   {{ changeSex(scope.row.sex) }}
               </template>
           </el-table-column>
-          <el-table-column prop="vipStart" label="开通会员时间" width="120" align="center"></el-table-column>
-          <el-table-column prop="vipEnd" label="会员到期时间" width="120" align="center"></el-table-column>
-          <el-table-column prop="cost" label="消费总额" width="100" align="center"></el-table-column>
-          <el-table-column prop="level" label="会员等级" width="50" align="center"></el-table-column>
+          <el-table-column prop="createTimeVip" label="开通会员时间" width="120" align="center">
+            
+          </el-table-column>
+          <el-table-column prop="endTime" label="会员到期时间" width="120" align="center">
+            
+          </el-table-column>
+          <el-table-column prop="moneys" label="消费总额" width="100" align="center">
+           
+          </el-table-column>
+          <el-table-column prop="level" label="会员等级" width="50" align="center">
+            
+          </el-table-column>
           <el-table-column prop="phoneNum" label="手机号码" width="100" align="center"></el-table-column>
           <el-table-column prop="email" label="电子邮箱" width="120" align="center"></el-table-column>
           <el-table-column  prop="birth" label="生日" width="120" align="center"></el-table-column>
@@ -114,10 +122,12 @@
 <script>
 import {
   getConsumer,//这里用的还是用户表
+  getVipConsumer,//vip用户
   deleteConsumer,
   updateConsumer,
   deleteSomeConsumer,
-  selectLikeUserName
+  selectLikeUserName,
+  getVipInfo,//根据用户id 查询用户VIP信息
 } from "../api/index";
 import { mixin } from "../mixins";
 export default {
@@ -138,7 +148,6 @@ export default {
 
       // 搜索框的值(双向数据绑定)
       select_value: "",
-
 
       //编辑框的数据绑定model
       form: {
@@ -180,12 +189,13 @@ export default {
     //查询所有用户  以及分页
     getData() {
       this.tableData = [],
-        getConsumer(this.currentPage).then((res) => {
+        getVipConsumer(this.currentPage).then((res) => {
           this.tableData = res.records;
           this.pageSize = res.size;
           this.total = res.total;
         })
     },
+   
 
     //enter查询（回车搜索）    //模糊查询用户名 以及分页
     searchEnter() {

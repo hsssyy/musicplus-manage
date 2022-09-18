@@ -21,6 +21,8 @@ export const getCountOfSongList = () => get(`info/countSongList`)
 
 //查询所有用户
 export const getConsumer = (pn) => get(`consumer/allConsumer?pn=${pn}`);//之前没有传参，所以分页显示数据失败
+//查询VIP用户
+export const getVipConsumer = (pn) => get(`consumer/allVipConsumer?pn=${pn}`);
 //删除一个用户
 export const deleteConsumer = (id) => get(`consumer/delete?id=${id}`);
 //批量删除
@@ -98,5 +100,8 @@ export const updateVip = (params) => post(`vipPrice/update`,params);
 export const addVip = (params) => post(`vip/addVip`,params);
 //模糊查询套餐名
 // export const selectLikeUserName = (username)  => get(`consumer/selectLikeUserName?username=${username}`)
+
+//根据用户id获取 用户VIP 信息
+export const getVipInfo =(userId) => get(`vip/selectTime?userId=${userId}`);
 
 
