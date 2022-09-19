@@ -139,7 +139,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini" @click="resetForm">取消</el-button>
+        <el-button size="mini"  @click="centerDialogVisible = false">取消</el-button>
         <el-button type="primary" size="mini" @click="addNewConsumer">确定</el-button>
       </span>
     </el-dialog>
@@ -231,21 +231,7 @@ export default {
       return this.tableData;//查找数据库数据
     },
   },
-  // watch: {//深度监听
-  //   //搜素框里面的内容发生变化的时候，搜素结果table列表的内容跟着它的内容发生变化
-  //   select_word: function () {
-  //     if (this.select_word == "") {
-  //       this.tableData = this.tempData;
-  //     } else {
-  //       this.tableData = [];
-  //       for (let item of this.tempData) {
-  //         if (item.username.includes(this.select_word)) {
-  //           this.tableData.push(item);
-  //         }
-  //       }
-  //     }
-  //   },
-  // },
+
   watch: {
     // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
@@ -289,18 +275,6 @@ export default {
         })
       }
     },
-    //模糊查询用户名 以及分页
-    // selectUserName() {
-    //   this.tableData = [];
-    //   // var username = $("select").val;
-    //   // var username1 = new InputEvent(document.getElementById("select"));//不知道咋获取输入框的值  小bug
-    //   var username1 = this.select_value;
-    //   selectLikeUserName(username1).then((res) => {
-    //     this.tableData = res.records;
-    //     this.pageSize = res.size;
-    //     this.total = res.total;
-    //   })
-    // },
 
     //删除一个用户
     deleteRow() {
@@ -407,12 +381,12 @@ export default {
       this.$refs.registerForm.resetFields()
     },
 
-    // 点击取消，置空表单数据
-    resetForm() {
-      this.centerDialogVisible = false
-      this.closeAddRoleDialog()
+    // // 点击取消，置空表单数据
+    // resetForm() {
+    //   this.centerDialogVisible = false
+    //   this.closeDialog()
 
-    },
+    // },
 
 
 

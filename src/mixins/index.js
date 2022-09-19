@@ -23,6 +23,17 @@ export const mixin = {
             }
             return value;
         },
+
+        //是否是Vip歌曲
+        changeVip(value) {
+            if (value == 0) {
+                return '是';
+            }
+            if (value == 1) {
+                return '否';
+            }
+            return value;
+        },
         ///根据相对地址获取绝对地址
         getUrl(url) {
             return `http://127.0.0.1:8888` + `${url}`
@@ -48,7 +59,7 @@ export const mixin = {
                 });
             }
         },
-       
-        
+
+
     }
 }

@@ -12,10 +12,10 @@
                     <i class="el-icon-menu"></i>
                     <span slot="title">系统首页</span>
                 </el-menu-item>
-                <el-menu-item index="/index">
+                <!-- <el-menu-item index="/index">
                     <i class="el-icon-menu"></i>
                     <span slot="title">系统首页2</span>
-                </el-menu-item>
+                </el-menu-item> -->
                 <el-submenu index="/Consumer">
                     <template slot="title">
                         <i class="el-icon-location"></i>
@@ -44,7 +44,7 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">VIP管理</span>
                 </el-menu-item>
-                <el-submenu index="/Auth">
+                <!-- <el-submenu index="/Auth">
                     <template slot="title">
                         <i class="el-icon-location"></i>
                         <span>权限管理</span>
@@ -59,7 +59,7 @@
                             <span slot="title">权限列表</span>
                         </el-menu-item>
                     </el-menu-item-group>
-                </el-submenu>
+                </el-submenu> -->
             </el-menu>
         </transition>
     </div>

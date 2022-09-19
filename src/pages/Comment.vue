@@ -38,6 +38,7 @@
                 layout="total,prev,pager,next" @current-change="handleCurrentChange"></el-pagination>
         </div>
 
+<<<<<<< HEAD
 
         <!-- <el-dialog title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="50%" height="600px" center>
             <el-form :model="commentForm" status-icon :rules="Rules" ref="commentForm" label-width="100px"
@@ -61,6 +62,17 @@
             <span slot="footer">
                 <el-button size="mini" @click="showCommentDialog = false">取消</el-button>
                 <el-button size="mini" @click="updateCom">确定</el-button>
+=======
+        <el-dialog title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="400px" center>
+            <el-form :model="commentForm" ref="commentForm" label-width="80px" action="" id="tf" :rules="rules">
+                <el-form-item  label="评论内容" size="mini">
+                    <el-input type="textarea" v-model="commentForm.content"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer">
+                <el-button size="mini" @click="showCommentDialog = false">取消</el-button>
+                <el-button size="mini" @click="updataCom">确定</el-button>
+>>>>>>> 6a3172270e7c7712baf873360350d5be05e11dff
             </span>
         </el-dialog>
 
@@ -71,7 +83,7 @@
                 <el-button type="primary" size="mini" @click="delVisible = false">取消</el-button>
                 <el-button type="danger" size="mini" @click="deleteRow">确定</el-button>
             </span>
-        </el-dialog> 
+        </el-dialog>
 
     </div>
 </template>
@@ -83,11 +95,13 @@ import {
     getUserOfId,
     updateComment, //更新（编辑后）
     deleteComment,//删除单个
+<<<<<<< HEAD
     deleteSomeComment,//删除所有
+=======
+    deleteSomeComment//删除所有
+>>>>>>> 6a3172270e7c7712baf873360350d5be05e11dff
 } from "../api/index";
-
 import { mixin } from "../mixins";
-
 export default {
     mixins: [mixin],
     props:['id'],
@@ -110,14 +124,13 @@ export default {
             //编辑框的数据绑定model
             commentForm: {
                 id: "",
-                content: "",
+                content: "",//评论内容
             },
 
         };
     },
 
-    computed: {//存在缓存，不经常变化的在此操作
-        //查找数据库表数据
+    computed: {
         data() {
             return this.tableData;
         },

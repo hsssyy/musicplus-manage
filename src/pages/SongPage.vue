@@ -1,9 +1,5 @@
 <template>
   <div class="table">
-    <div class="crumbs">
-      <i class="el-icon-tickets"></i>
-      歌曲信息
-    </div>
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
@@ -13,31 +9,24 @@
       </div>
     </div>
 
-    <el-dialog title="添加歌曲" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center>
-      <el-form :model="registerForm" ref="registerForm" label-width="80px" action="" id="tf" :rules="rules">
+    <el-dialog title="添加歌曲" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center
+      @close="closeDialog">
+      <el-form :model="addSongForm" ref="addSongForm" label-width="80px" action="" id="tf" :rules="rules">
         <div>
           <label>歌名</label>
-          <el-input type="text" v-model="registerForm.name"></el-input>
+          <el-input type="text" v-model="addSongForm.name"></el-input>
         </div>
         <div>
           <label>专辑</label>
-          <el-input type="text" v-model="registerForm.introduction"></el-input>
+          <el-input type="text" v-model="addSongForm.introduction"></el-input>
         </div>
         <div>
           <label>歌词</label>
-          <el-input type="textarea" v-model="registerForm.lyric"></el-input>
+          <el-input type="textarea" v-model="addSongForm.lyric"></el-input>
         </div>
-        <!-- <div> -->
-        <!-- <label>歌曲上传</label> -->
-        <!-- <input type="file" name="url" /> -->
-        <!-- <el-upload type="file" v-model="registerForm.file">歌曲上传</el-upload> -->
-        <!-- <el-upload type="file" v-model="registerForm.file">
-                <el-button size="mini">歌曲上传</el-button>
-          </el-upload> -->
-        <!-- </div> -->
       </el-form>
       <span slot="footer">
-        <el-button size="mini" @click="centerDialogVisible = false">取消</el-button>
+        <el-button size="mini" @click="resetForm">取消</el-button>
         <el-button size="mini" @click="addSong">确定</el-button>
       </span>
     </el-dialog>
@@ -78,6 +67,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="Vip歌曲" width="150" align="center">
+        <template slot-scope="scope">
+          {{ changeVip(scope.row.set_vip) }}
+        </template>
+      </el-table-column>
+
       <el-table-column label="设置为Vip歌曲" width="150" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="set_Vip(scope.row.id,scope.row.set_vip)">设置</el-button>
@@ -104,7 +99,7 @@
       <el-pagination background :current-page="currentPage" :page-size="pageSize" :total="total"
         layout="total,prev,pager,next" @current-change="handleCurrentChange"></el-pagination>
     </div>
-
+    <!-- 编辑 -->
     <el-dialog title="修改歌曲" :append-to-body="true" :visible.sync="editVisible" width="400px" center>
       <el-form :model="form" ref="form" label-width="80px">
         <el-form-item prop="name" label="歌手-歌名" size="mini">
@@ -138,7 +133,7 @@
 <script>
 import { mixin } from "../mixins";
 import "@/assets/js/iconfont.js";
-import { addOneSong, selectSongs, updateSong, deleteSong, deleteSomeSong } from "../api/index";
+import { addOneSong, selectSongs, updateSong, deleteSong, deleteSomeSong,setVip,removeVip } from "../api/index";
 
 export default {
   mixins: [mixin],
@@ -154,7 +149,7 @@ export default {
       // 搜索框的值(双向数据绑定)
       select_value: "",
 
-      registerForm: {
+      addSongForm: {
         //添加框
         name: "",//歌名
         singerId: "",//歌手编号
@@ -193,11 +188,8 @@ export default {
     };
   },
   watch: {
-    // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
       if (this.select_value == "") {
-        // 发请求回到初始列表数据状态
-        // console.log("搜索框没东西了，回复初始状态");
         this.getData();
       }
     }
@@ -218,9 +210,9 @@ export default {
 
     //添加歌曲
     addSong() {
-      this.registerForm.name = this.singerName + "-" + this.registerForm.name;//拼接，歌手姓名-歌名
-      this.registerForm.singerId = this.singerId;//歌手id
-      addOneSong(this.registerForm).then((res) => {
+      this.addSongForm.name = this.singerName + "-" + this.addSongForm.name;//拼接，歌手姓名-歌名
+      this.addSongForm.singerId = this.singerId;//歌手id
+      addOneSong(this.addSongForm).then((res) => {
         if (res) {
           this.notify("添加成功", "success");
           this.getData();
@@ -230,7 +222,25 @@ export default {
         }
 
       })
+      this.centerDialogVisible = false
     },
+    //置空添加表单
+    // 关闭添加用户的弹窗，置空表单
+    closeDialog() {
+      this.addSongForm.name = ''
+      this.addSongForm.introduction = ''
+      this.addSongForm.lyric = ''
+      this.$refs.addSongForm.resetFields()
+    },
+
+    // 点击取消，置空表单数据
+    resetForm() {
+      this.centerDialogVisible = false
+      this.closeAddRoleDialog()
+
+    },
+
+
     //获取当前页
     handleCurrentChange(val) {
       this.currentPage = val;
@@ -321,12 +331,13 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.editVisible = false;
+      this.editVisible = false
     },
     set_Vip() {
 
     },
-    //设置为vip歌曲
+
+    //设置为vip歌曲(在数据库修改一下set_vip的值，0：非VIP歌曲；1：VIp歌曲)
     set_Vip(id, set_vip) {
       if (set_vip == 1) {
         this.notify("该歌曲已是Vip歌曲，不可设置", "warnning")
@@ -334,7 +345,7 @@ export default {
       setVip(id).then(res => {
         if (res.code == 1) {
           this.notify("设置Vip歌曲成功", "success")
-          this.getVipTypeList();
+          this.getData();
         } else {
           this.notify("设置Vip歌曲失败", "error")
         }
@@ -343,13 +354,13 @@ export default {
     //设置为非vip歌曲
     re_Vip(id, set_vip) {
       if (set_vip == 0) {
-        this.notify("该歌曲不是Vip歌曲，不可移除 ","warnning")
+        this.notify("该歌曲不是Vip歌曲，不可移除 ", "warnning")
       }
       removeVip(id).then(res => {
         if (res.code == 1) {
           this.notify("移除Vip歌曲成功", "success")
-          this.getVipTypeList();
-        }else {
+          this.getData();
+        } else {
           this.notify("移除Vip歌曲失败", "error")
         }
       })
