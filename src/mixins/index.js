@@ -1,4 +1,3 @@
-import {getNameById} from "../api/index";
 export const mixin = {
     methods: {
         notify(title, type) {

@@ -42,11 +42,10 @@
 
       <el-table-column label="评论" width="100" align="center">
         <template slot-scope="scope">
-          <el-button type="info" icon="el-icon-chat-dot-round" circle @click="getComment(scope.row.song_list_id)"></el-button>
+          <el-button type="info" icon="el-icon-chat-dot-round" circle @click="getComment(scope.row.id)"></el-button>
           <!-- <el-button type="info" icon="el-icon-chat-dot-round" circle @click="getComment(data[scope.$index].id)"> -->
           <!-- </el-button> -->
         </template>
-
       </el-table-column>
 
       <el-table-column label="操作" align="center">
@@ -288,9 +287,10 @@ export default {
     songEdit(id, name) {
       this.$router.push({ path: `/ListSong`, query: { id } });
     },
+    
     //转向该歌单的评论列表
-    getComment(song_list_id) {
-      this.$router.push({ path: `/Comment`, query: { song_list_id } });
+    getComment(id){
+      this.$router.push({ path:`/Comment`, query: { id } });
     }
   },
 };

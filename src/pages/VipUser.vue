@@ -139,7 +139,7 @@ export default {
       centerDialogVisible: false,//添加新用户
       tableData: [],
       //分页设置
-      currentPage: 0,//当前页
+      currentPage: 1,//当前页
       pageSize: 0,//分页的每页显示多少个
       total: 0,//总条数
 

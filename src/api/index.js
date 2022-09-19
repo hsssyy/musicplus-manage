@@ -23,6 +23,10 @@ export const getCountOfSongList = () => get(`info/countSongList`)
 export const getConsumer = (pn) => get(`consumer/allConsumer?pn=${pn}`);//之前没有传参，所以分页显示数据失败
 //查询VIP用户
 export const getVipConsumer = (pn) => get(`consumer/allVipConsumer?pn=${pn}`);
+
+//根据用户id 查询用户
+export const getUserOfId = (id) => get(`consumer/getUserOfId?id=${id}`)
+
 //删除一个用户
 export const deleteConsumer = (id) => get(`consumer/delete?id=${id}`);
 //批量删除
@@ -107,9 +111,9 @@ export const getVipInfo =(userId) => get(`vip/selectTime?userId=${userId}`);
 
 
 //=============评论===========
-export const getComment = (params) => post(`comment/getCom`,params);//获取评论
-export const updateComment = (params) => post(`comment/updataCom`,params);//更新（编辑后）
-export const deleteComment = (params) => post(`comment/delComment`,params);//删除单个
+export const getComment = (songListId,pn) => get(`comment/commentOfSongListIdPage?songListId=${songListId}&&pn=${pn}`);//获取某个歌单的评论
+export const updateComment = (params) => post(`comment/updateCom`,params);//更新（编辑后）
+export const deleteComment = (id) => get(`comment/delComment?id=${id}`);//删除单个
 export const deleteSomeComment = (ids) => get(`comment/someDelete?id=${ids}`);//删除所有
 
 

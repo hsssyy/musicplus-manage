@@ -132,14 +132,6 @@ export default {
             },
         };
     },
-
-    mounted() {
-        this.changeAdminName('', (data) => {
-            console.log("-------------------------------------------")
-            console.log(data)
-        })
-
-    },
     computed: {//存在缓存，不经常变化的在此操作
         //获取用户名
         userName() {
