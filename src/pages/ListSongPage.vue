@@ -1,10 +1,7 @@
 <template>
   <div class="table">
-    <div class="crumbs">
-      <i class="el-icon-tickets"></i>
-      歌单歌曲信息
-    </div>
     <div class="container">
+      <h2>歌单歌曲信息</h2>
       <div class="handle-box">
         <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
         <el-input  size="mini" placeholder="请输入歌曲名" class="handle-input" v-model="select_value" 
@@ -77,27 +74,10 @@ export default {
       
     };
   },
-  // watch: {
-  //   //搜素框里面的内容发生变化的时候，搜素结果table列表的内容跟着它的内容发生变化
-  //   select_word: function () {
-  //     if (this.select_word == "") {
-  //       this.tableData = this.tempData;
-  //     } else {
-  //       this.tableData = [];
-  //       for (let item of this.tempData) {
-  //         if (item.name.includes(this.select_word)) {
-  //           this.tableData.push(item);
-  //         }
-  //       }
-  //     }
-  //   },
-  // },
   watch: {
     // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
       if (this.select_value == "") {
-        // 发请求回到初始列表数据状态
-        // console.log("搜索框没东西了，回复初始状态");
         this.getData();
       }
     }

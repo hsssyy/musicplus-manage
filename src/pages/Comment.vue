@@ -11,10 +11,8 @@
         <el-table size="mini" border style="width: 100%" height="700px" :data="data"
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="40"></el-table-column>
-            <!-- 这里的用户需要有id转为用户名 -->
+            <!-- 这里的用户需要由id转为用户名 -->
             <el-table-column prop="id" label="用户" width="180" align="center"></el-table-column>
-            <!-- 歌曲不确定要不要展示 -->
-            <el-table-column prop="song" label="歌曲" align="center"> </el-table-column>
             <el-table-column prop="content" label="评论内容" align="center"> </el-table-column>
             <el-table-column prop="create_time" label="评论时间" align="center"> </el-table-column>
             <el-table-column label="操作" align="center">
@@ -39,20 +37,16 @@
                 layout="total,prev,pager,next" @current-change="handleCurrentChange"></el-pagination>
         </div>
 
-
-        <el-dialog :title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="50%"
-            @close="closeCommentDialog">
-            <el-form :model="commentForm" status-icon :rules="Rules" ref="commentForm" label-width="100px"
-                class="demo-ruleForm">
-                <!-- 改成一个 -->
-                <el-form-item label="评论内容" prop="content">
-                    <el-input type="textarea" maxlength="30" show-word-limit :rows="2" v-model.trim="commentForm.content" autocomplete="off"></el-input>
+        <el-dialog title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="400px" center>
+            <el-form :model="commentForm" ref="commentForm" label-width="80px" action="" id="tf" :rules="rules">
+                <el-form-item  label="评论内容" size="mini">
+                    <el-input type="textarea" v-model="commentForm.content"></el-input>
                 </el-form-item>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="resetAddRoleForm">取消</el-button>
-                    <el-button type="primary" @click="updataCom">确 定</el-button>
-                </span>
             </el-form>
+            <span slot="footer">
+                <el-button size="mini" @click="showCommentDialog = false">取消</el-button>
+                <el-button size="mini" @click="updataCom">确定</el-button>
+            </span>
         </el-dialog>
 
 
@@ -62,7 +56,7 @@
                 <el-button type="primary" size="mini" @click="delVisible = false">取消</el-button>
                 <el-button type="danger" size="mini" @click="deleteRow">确定</el-button>
             </span>
-        </el-dialog> 
+        </el-dialog>
 
     </div>
 </template>
@@ -72,12 +66,10 @@
 import {
     getComment,//获取评论
     updateComment, //更新（编辑后）
-    deleteConsumer,//删除单个
-    deleteSomeConsumer//删除所有
+    deleteComment,//删除单个
+    deleteSomeComment//删除所有
 } from "../api/index";
-
 import { mixin } from "../mixins";
-
 export default {
     mixins: [mixin],
     data() {
@@ -98,14 +90,13 @@ export default {
             //编辑框的数据绑定model
             commentForm: {
                 id: "",
-                content: "",
+                content: "",//评论内容
             },
 
         };
     },
 
-    computed: {//存在缓存，不经常变化的在此操作
-        //查找数据库表数据
+    computed: {
         data() {
             return this.tableData;
         },
@@ -136,8 +127,6 @@ export default {
             this.showCommentDialog = true;
             this.commentForm = {
                 id: row.id,
-                song: row.song_id,
-                songList: row.song_list_id,
                 content: row.content,
             }
         },
@@ -160,7 +149,7 @@ export default {
 
         //删除一个评论
         deleteRow() {
-            deleteConsumer(this.idx)
+            deleteComment(this.idx)
                 .then((res) => {
                     if (res) {
                         this.notify("删除成功", "sucess");
@@ -179,7 +168,7 @@ export default {
             this.ids = selection.map(item => item.id)
         },
         delAll() {
-            deleteSomeConsumer(this.ids).then((res) => {
+            deleteSomeComment(this.ids).then((res) => {
                 if (res) {
                     this.notify("删除成功", "sucess");
                     this.delVisible = false;

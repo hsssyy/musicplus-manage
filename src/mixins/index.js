@@ -1,4 +1,4 @@
-import {getNameById} from "../api/index";
+import { getNameById } from "../api/index";
 export const mixin = {
     methods: {
         notify(title, type) {
@@ -21,6 +21,17 @@ export const mixin = {
             }
             if (value == 3) {
                 return '不明';
+            }
+            return value;
+        },
+
+        //是否是Vip歌曲
+        changeVip(value) {
+            if (value == 0) {
+                return '是';
+            }
+            if (value == 1) {
+                return '否';
             }
             return value;
         },
@@ -49,7 +60,7 @@ export const mixin = {
                 });
             }
         },
-       
-        
+
+
     }
 }
