@@ -38,31 +38,6 @@
                 layout="total,prev,pager,next" @current-change="handleCurrentChange"></el-pagination>
         </div>
 
-<<<<<<< HEAD
-
-        <!-- <el-dialog title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="50%" height="600px" center>
-            <el-form :model="commentForm" status-icon :rules="Rules" ref="commentForm" label-width="100px"
-                class="demo-ruleForm">
-                改成一个 
-                <el-form-item label="评论内容" prop="content">
-                    <el-input type="textarea" maxlength="30" show-word-limit  v-model.trim="commentForm.content" autocomplete="off"></el-input>
-                </el-form-item>
-                <span slot="footer" class="dialog-footer">
-                    <el-button  @click="showCommentDialog = false">取消</el-button>
-                    <el-button type="primary" @click="updataCom">确 定</el-button>
-                </span>
-            </el-form> -->
-        <!-- </el-dialog> -->
-        <el-dialog title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="400px" center>
-            <el-form :model="commentForm" ref="commentForm" label-width="80px" action="" id="tf" :rules="rules">
-                <el-form-item  label="评论内容" size="mini">
-                    <el-input type="textarea" v-model="commentForm.content"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer">
-                <el-button size="mini" @click="showCommentDialog = false">取消</el-button>
-                <el-button size="mini" @click="updateCom">确定</el-button>
-=======
         <el-dialog title="编辑评论" :append-to-body="true" :visible.sync="showCommentDialog" width="400px" center>
             <el-form :model="commentForm" ref="commentForm" label-width="80px" action="" id="tf" :rules="rules">
                 <el-form-item  label="评论内容" size="mini">
@@ -72,7 +47,6 @@
             <span slot="footer">
                 <el-button size="mini" @click="showCommentDialog = false">取消</el-button>
                 <el-button size="mini" @click="updataCom">确定</el-button>
->>>>>>> 6a3172270e7c7712baf873360350d5be05e11dff
             </span>
         </el-dialog>
 
@@ -95,11 +69,7 @@ import {
     getUserOfId,
     updateComment, //更新（编辑后）
     deleteComment,//删除单个
-<<<<<<< HEAD
     deleteSomeComment,//删除所有
-=======
-    deleteSomeComment//删除所有
->>>>>>> 6a3172270e7c7712baf873360350d5be05e11dff
 } from "../api/index";
 import { mixin } from "../mixins";
 export default {
