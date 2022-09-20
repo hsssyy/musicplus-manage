@@ -2,7 +2,7 @@
     <div class="table">
         <div class="container">
             <div class="handle-box">
-                <h2>XXX的收藏列表</h2>
+                <h2>{{this.userName}} 的收藏列表</h2>
                 <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
                 <el-input size="mini" placeholder="搜索..." class="handle-input" v-model="select_value" id="select"
                     @keyup.enter.native="searchEnter"></el-input>
@@ -15,12 +15,11 @@
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="40"></el-table-column>
             <!-- 这里仅拿到数据库里歌曲、歌单的id,需转为名字 -->
-            <el-table-column prop="song_id" label="歌曲" width="180" align="center"></el-table-column>
-            <el-table-column prop="song_list_id" label="歌单" width="120" align="center"></el-table-column>
-            <el-table-column prop="create_time" label="收藏时间" width="120" align="center"></el-table-column>
+            <el-table-column prop="songName" label="歌曲" width="180" align="center"></el-table-column>
+            <el-table-column prop="title" label="歌单" width="120" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="收藏时间" width="120" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
                     <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)">
                     </el-button>
                 </template>
@@ -99,7 +98,9 @@ import {
     addCollct,
     songByName,//根据歌曲名查找id
     deleteSomeCollect,
-    songListByName//根据歌单名查找id
+    songListByName,//根据歌单名查找id
+    songBySongId,//根据歌曲id 获取歌曲对象
+    getSongListOfId,//根据歌单id 获取歌单对象
     // selectLikeUserName//搜索
 } from "../api/index";
 import { mixin } from "../mixins";
@@ -112,7 +113,7 @@ export default {
             centerDialogVisible: false,//添加新用户
             tableData: [],//数据库表数据
             //分页设置
-            currentPage: 0,//当前页
+            currentPage: 1,//当前页
             pageSize: 0,//分页的每页显示多少个
             total: 0,//总条数
 
@@ -180,18 +181,42 @@ export default {
             this.currentPage = val;
             this.getData();
         },
-        //查询所有用户  以及分页
+        //查询所有收藏  以及分页
         getData() {
             this.tableData = [],
-                getCollect(this.currentPage).then((res) => {
-                    this.tableData = res.records;
+                getCollect(this.currentPage,this.userId).then((res) => {
+                    // this.tableData = res.records;
                     this.pageSize = res.size;
                     this.total = res.total;
+                    for (let item of res.records) {
+                        this.getSongs(item.type,item.songId,item.songListId,item);
+                     }
                 })
         },
-
-
-
+         getSongs(type,songId,songListId,item) {
+            if(type==0){
+                songBySongId(songId)
+                .then((res) => {
+                    let o = item;
+                    o.songName = res.name;
+                    this.tableData.push(o);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            }else{
+                getSongListOfId(songListId)
+                .then((res) => {
+                    let o = item;
+                    o.title = res.title;
+                    this.tableData.push(o);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            }
+            
+        },
         //enter查询（回车搜索） 
         searchEnter() {
             // 控制一下，如果用户没输入东西就不去搜索
@@ -208,15 +233,15 @@ export default {
             }
         },
 
-        //删除一个用户
+        //删除一个收藏
         deleteRow() {
             deleteCollect(this.idx)
                 .then((res) => {
                     if (res) {
-                        this.notify("删除成功", "sucess");
+                        this.notify("取消成功", "sucess");
                         this.getData();
                     } else {
-                        this.notify("删除失败", "error");
+                        this.notify("取消失败", "error");
                     }
                 })
                 .catch((err) => {

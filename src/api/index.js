@@ -71,11 +71,17 @@ export const setVip= (id) => get(`song/setVip?id=${id}`);
 
 //移除vip歌曲
 export const removeVip= (id) => get(`song/removeVip?id=${id}`);
+
+
+//根据歌曲id 查询该歌曲
+export const songBySongId = (songId) => get(`song/songBySongId?songId=${songId}`)
+
 //============歌单相关===========
 
 //根据歌单名字 查询该歌单对象
 export const songListByName = (name) => get(`songList/songListBySongId?name=${name}`)
-
+//根据歌曲id 获取歌单对象
+export const getSongListOfId = (id) => get(`songList/getSongListInfoById?id=${id}`)
 
 
 //查询所有歌单
@@ -89,8 +95,7 @@ export const updateSongList = (params) => post(`songList/update`,params);
 //添加歌单
 export const insertSongList = (params) => post(`songList/insert`,params);
 
-//根据歌曲id 查询该歌曲
-export const songBySongId = (songId) => get(`song/songBySongId?songId=${songId}`)
+
 
 //=============歌单中的歌曲管理===========
 
@@ -127,13 +132,10 @@ export const updateComment = (params) => post(`comment/updateCom`,params);//更�
 export const deleteComment = (id) => get(`comment/delComment?id=${id}`);//删除单个
 export const deleteSomeComment = (ids) => get(`comment/someDelete?id=${ids}`);//删除所有
 
-
 //=============收藏===========
-export const getCollect = (params) => post(`collect/getCollect`,params);//获取评论
-export const deleteCollect= (params) => post(`collect/deleteCollect`,params);//获取评论
-export const updateCollect = (params) => post(`collect/updateCollect`,params);//获取评论
-export const addCollct = (params) => post(`collect/addCollect`,params);//获取评论
-export const deleteSomeCollect = (ids) => get(`comment/someDeleteCol?id=${ids}`);//删除所有
+export const getCollect = (pn,userId) => get(`collect/getCollect?pn=${pn}&&userId=${userId}`);//获取收藏
+export const deleteCollect= (id) => get(`collect/deleteCollect?id=${id}`);//取消收藏
+export const deleteSomeCollect = (ids) => get(`collect/someDeleteCol?id=${ids}`);//取消多个收藏
 
 
 

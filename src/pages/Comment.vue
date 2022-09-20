@@ -127,12 +127,11 @@ export default {
                     this.total = res.total;
                     for (let item of res.records) {
                         this.getUsers(item.userId,item);
-
                      }
 
                 })
         },
-         //获取用户名，连同本对象放到tempData和tableData里面
+         //获取用户名，连同本对象放到tableData里面
         getUsers(id,item) {
             getUserOfId(id)
             .then((res) => {

@@ -26,10 +26,10 @@ export const mixin = {
 
         //是否是Vip歌曲
         changeVip(value) {
-            if (value == 0) {
+            if (value == 1) {
                 return '是';
             }
-            if (value == 1) {
+            if (value == 0) {
                 return '否';
             }
             return value;

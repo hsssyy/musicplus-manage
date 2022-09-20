@@ -69,14 +69,14 @@
 
       <el-table-column label="Vip歌曲" width="150" align="center">
         <template slot-scope="scope">
-          {{ changeVip(scope.row.set_vip) }}
+          {{ changeVip(scope.row.setVip) }}
         </template>
       </el-table-column>
 
       <el-table-column label="设置为Vip歌曲" width="150" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="set_Vip(scope.row.id,scope.row.set_vip)">设置</el-button>
-          <el-button size="mini" @click="re_Vip(scope.row.id,scope.row.set_vip)">移除</el-button>
+          <el-button size="mini" @click="set_Vip(scope.row.id,scope.row.setVip)">设置</el-button>
+          <el-button size="mini" @click="re_Vip(scope.row.id,scope.row.setVip)">移除</el-button>
         </template>
       </el-table-column>
 
@@ -333,17 +333,13 @@ export default {
         });
       this.editVisible = false
     },
-    set_Vip() {
-
-    },
-
     //设置为vip歌曲(在数据库修改一下set_vip的值，0：非VIP歌曲；1：VIp歌曲)
     set_Vip(id, set_vip) {
       if (set_vip == 1) {
         this.notify("该歌曲已是Vip歌曲，不可设置", "warnning")
       }
       setVip(id).then(res => {
-        if (res.code == 1) {
+        if (res) {
           this.notify("设置Vip歌曲成功", "success")
           this.getData();
         } else {
@@ -357,7 +353,7 @@ export default {
         this.notify("该歌曲不是Vip歌曲，不可移除 ", "warnning")
       }
       removeVip(id).then(res => {
-        if (res.code == 1) {
+        if (res) {
           this.notify("移除Vip歌曲成功", "success")
           this.getData();
         } else {

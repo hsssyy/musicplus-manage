@@ -34,7 +34,7 @@
           <el-table-column prop="location" label="地区" width="100" align="center"></el-table-column>
           <el-table-column label="收藏"  width="200" align="center">
               <template slot-scope="scope">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="goCollect(scope.row.id, scope.row.name)"></el-button>
+                  <el-button type="warning" icon="el-icon-star-off" circle @click="goCollect(scope.row.id, scope.row.username)"></el-button>
               </template>
           </el-table-column>
           <el-table-column label="操作" align="center">
