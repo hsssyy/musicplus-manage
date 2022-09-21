@@ -181,7 +181,7 @@ export default {
         birth: "",
         introduction: "",
         location: "",
-        pic: "/img/SingerPic/singer.jpg"  //默认图片
+        pic: "/img/singerPic/singer.jpg"  //默认图片
       },
       //更新图片
       uploadUrl(id) {
@@ -306,6 +306,12 @@ export default {
     },
     //保存修改歌手信息
     editSave() {
+      let d = this.form.birth;
+      if(d.length != 19){
+        let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+        this.form.birth = datetime;
+      }
+      
       updateSinger(this.form)
         .then((res) => {
           if (res) {
@@ -322,6 +328,9 @@ export default {
     },
     //添加一个歌手
     addNewSinger() {
+      let d = this.registerForm.birth;
+      let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+      this.registerForm.birth = datetime;
       addSinger(this.registerForm)
         .then((res) => {
           if (res) {

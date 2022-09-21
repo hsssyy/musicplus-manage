@@ -156,7 +156,8 @@ export default {
         singerName: "",//歌手名
         introduction: "",//简介
         lyric: "",//歌词
-        file: ""
+        file: "",
+        pic:"/img/songPic/tubiao.jpg"
       },
 
       tableData: [],

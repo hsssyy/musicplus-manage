@@ -221,7 +221,7 @@ export default {
         birth: "",
         introduction: "",
         location: "",
-        avator: "/avatorImages/user.jpg"  //默认图片,现在拿不到默认图片了？？？
+        avator: "/avatorImages/user.jpg"  //默认图片
       },
 
     };
@@ -328,6 +328,12 @@ export default {
     },
     //保存修改用户信息
     editSave() {
+      let d = this.form.birth;
+      if(d.length !=19){//用来判断有没有修改日期
+        let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+       this.form.birth = datetime;
+      }
+     
       updateConsumer(this.form)
         .then((res) => {
           if (res) {
@@ -348,6 +354,10 @@ export default {
     },
     //添加一个用户
     addNewConsumer() {
+      // let _this = this;
+      let d = this.registerForm.birth;
+      let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+      this.registerForm.birth = datetime;
       addConsumer(this.registerForm)
         .then((res) => {
           if (res) {

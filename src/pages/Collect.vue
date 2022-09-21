@@ -94,8 +94,8 @@
 import {
     getCollect,
     deleteCollect,
-    updateCollect,
-    addCollct,
+    // updateCollect,
+    // addCollct,
     songByName,//根据歌曲名查找id
     deleteSomeCollect,
     songListByName,//根据歌单名查找id

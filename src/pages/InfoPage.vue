@@ -50,7 +50,7 @@
         </div>
       </el-col>
       <el-col :span="12">
-        <h3 class="mgb20">歌曲风格</h3>
+        <h3 class="mgb20">歌单风格</h3>
         <div style="background-color: white">
           <ve-histogram :data="songStyle"></ve-histogram>
         </div>
