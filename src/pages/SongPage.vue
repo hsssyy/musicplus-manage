@@ -58,11 +58,11 @@
       <el-table-column label="资源更新" align="center">
         <template slot-scope="scope">
           <el-upload :action="uploadUrl(scope.row.id)" :on-success="handleAvatorSuccess">
-            <el-button size="mini">更新图片</el-button>
+            <el-button size="mini" type="success">更新图片</el-button>
           </el-upload>
           <br />
           <el-upload :action="uploadSongUrl(scope.row.id)" :on-success="handleSongSuccess">
-            <el-button size="mini">更新歌曲</el-button>
+            <el-button size="mini" type="success">更新歌曲</el-button>
           </el-upload>
         </template>
       </el-table-column>
@@ -75,14 +75,14 @@
 
       <el-table-column label="设置为Vip歌曲" width="150" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="set_Vip(scope.row.id,scope.row.setVip)">设置</el-button>
-          <el-button size="mini" @click="re_Vip(scope.row.id,scope.row.setVip)">移除</el-button>
+          <el-button size="mini" type="primary" @click="set_Vip(scope.row.id,scope.row.setVip)">设置</el-button>
+          <el-button size="mini" type="danger" @click="re_Vip(scope.row.id,scope.row.setVip)">移除</el-button>
         </template>
       </el-table-column>
 
       <el-table-column label="操作" width="150" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -122,8 +122,8 @@
     <el-dialog title="删除歌曲" :append-to-body="true" :visible.sync="delVisible" width="300px" center>
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
-        <el-button size="mini" @click="delVisible = false">取消</el-button>
-        <el-button size="mini" @click="deleteRow">确定</el-button>
+        <el-button size="mini" type="primary" @click="delVisible = false">取消</el-button>
+        <el-button size="mini" type="danger" @click="deleteRow">确定</el-button>
       </span>
     </el-dialog>
 
@@ -133,7 +133,7 @@
 <script>
 import { mixin } from "../mixins";
 import "@/assets/js/iconfont.js";
-import { addOneSong, selectSongs, updateSong, deleteSong, deleteSomeSong,setVip,removeVip } from "../api/index";
+import { addOneSong, selectSongs, updateSong, deleteSong, deleteSomeSong, setVip, removeVip } from "../api/index";
 
 export default {
   mixins: [mixin],
@@ -157,7 +157,7 @@ export default {
         introduction: "",//简介
         lyric: "",//歌词
         file: "",
-        pic:"/img/songPic/tubiao.jpg"
+        pic: "/img/songPic/tubiao.jpg"
       },
 
       tableData: [],
@@ -274,7 +274,7 @@ export default {
     //解析歌词
     parseLyric(text) {
       let lines = text.split("\n");
-      let pattern = /\[\d{2}:\d{2}.(\d{3}|\d{2})\]/g;
+      let pattern = /\[\d{2}:\d{2}.(\d{3}|\d{2})\]/g;//什么意思
       let result = [];
       for (let item of lines) {
         let value = item.replace(pattern, "");
@@ -294,22 +294,29 @@ export default {
     handleSongSuccess(res) {
       let _this = this;
       if (res.code == 1) {
+      
+        _this.notify("上传成功", "success");
         _this.getData();
-        _this.$notify({
-          title: "上传成功",
-          type: "success",
-        });
-      } else {
-        _this.$notify({
-          title: "上传失败",
-          type: "error",
-        });
+      }
+      else {
+        _this.notify("上传失败", "error");
       }
     },
 
+    handleAvatorSuccess(res) {
+      let _this = this;
+      if (res.code == 1) {
+      
+        _this.notify("上传成功", "success");
+        _this.getData();
+      }
+      else {
+        _this.notify("上传失败", "error");
+      }
+    },
 
-    //弹出编辑页面
-    handleEdit(row) {
+  //弹出编辑页面
+  handleEdit(row) {
       this.editVisible = true;
       this.form = {
         id: row.id,
@@ -337,30 +344,34 @@ export default {
     //设置为vip歌曲(在数据库修改一下set_vip的值，0：非VIP歌曲；1：VIp歌曲)
     set_Vip(id, set_vip) {
       if (set_vip == 1) {
-        this.notify("该歌曲已是Vip歌曲，不可设置", "warnning")
+        this.notify("该歌曲已是Vip歌曲，不可设置", "warning")
+      } else {
+        setVip(id).then(res => {
+          if (res) {
+            this.notify("设置Vip歌曲成功", "success")
+            this.getData();
+          } else {
+            this.notify("设置Vip歌曲失败", "error")
+          }
+        })
       }
-      setVip(id).then(res => {
-        if (res) {
-          this.notify("设置Vip歌曲成功", "success")
-          this.getData();
-        } else {
-          this.notify("设置Vip歌曲失败", "error")
-        }
-      })
     },
     //设置为非vip歌曲
     re_Vip(id, set_vip) {
       if (set_vip == 0) {
-        this.notify("该歌曲不是Vip歌曲，不可移除 ", "warnning")
+        this.notify("该歌曲不是Vip歌曲，不可移除 ", "warning")
+      } else {
+
+        removeVip(id).then(res => {
+          if (res) {
+            this.notify("移除Vip歌曲成功", "success")
+            this.getData();
+          } else {
+            this.notify("移除Vip歌曲失败", "error")
+          }
+        })
       }
-      removeVip(id).then(res => {
-        if (res) {
-          this.notify("移除Vip歌曲成功", "success")
-          this.getData();
-        } else {
-          this.notify("移除Vip歌曲失败", "error")
-        }
-      })
+
 
     },
     //删除一首歌曲

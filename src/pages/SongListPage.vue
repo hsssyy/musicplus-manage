@@ -284,7 +284,7 @@ export default {
       this.delVisible = false;
     },
     //转向歌曲管理
-    songEdit(id, name) {
+    songEdit(id) {
       this.$router.push({ path: `/ListSong`, query: { id } });
     },
     

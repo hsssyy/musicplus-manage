@@ -1,52 +1,65 @@
 <template>
   <div>
-    <el-row :gutter="20" class="mgb20">
-      <el-col :span="5">
-        <el-card>
-          <div class="grid-content">
-            <div class="grid-cont-center">
-              <div class="grid-num">{{ consumerCount }}</div>
-              <div>用户总数</div>
-            </div>
+    <el-row :gutter="20">
+    <el-col :span="6">
+      <el-card shadow="hover" :body-style="{ padding: '0px' }">
+        <div class="card-content">
+          <div class="card-left">
+            <i class="el-icon-user"></i>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card>
-          <div class="grid-content">
-            <div class="grid-cont-center">
-              <div class="grid-num">{{ songCount }}</div>
-              <div>歌曲总数</div>
-            </div>
+          <div class="card-right">
+            <div class="card-num">{{  consumerCount }}</div>
+            <div>用户总数</div>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card>
-          <div class="grid-content">
-            <div class="grid-cont-center">
-              <div class="grid-num">{{ singerCount }}</div>
-              <div>歌手数量</div>
-            </div>
+        </div>
+      </el-card>
+    </el-col>
+    <el-col :span="6">
+      <el-card shadow="hover" :body-style="{ padding: '0px' }">
+        <div class="card-content">
+          <div class="card-left">
+            <i class="el-icon-headset"></i>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card>
-          <div class="grid-content">
-            <div class="grid-cont-center">
-              <div class="grid-num">{{ songListCount }}</div>
-              <div>歌单数量</div>
-            </div>
+          <div class="card-right">
+            <div class="card-num">{{ songCount }}</div>
+            <div>歌曲总数</div>
           </div>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+      </el-card>
+    </el-col>
+    <el-col :span="6">
+      <el-card shadow="hover" :body-style="{ padding: '0px' }">
+        <div class="card-content">
+          <div class="card-left">
+            <i class="el-icon-mic"></i>
+          </div>
+          <div class="card-right">
+            <div class="card-num">{{ singerCount }}</div>
+            <div>歌手数量</div>
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+    <el-col :span="6">
+      <el-card shadow="hover" :body-style="{ padding: '0px' }">
+        <div class="card-content">
+          <div class="card-left">
+            <i class="el-icon-document"></i>
+          </div>
+          <div class="card-right">
+            <div class="card-num">{{ songListCount }}</div>
+            <div>歌单数量</div>
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+</el-row>
+
     <el-row :gutter="20" class="mgb20">
       <el-col :span="12">
         <h3 class="mgb20">用户性别比例</h3>
-        <div style="background-color: white">
-          <ve-pie :data="consumerSex" :theme="options"></ve-pie>
+        <div style="background-color: white" >
+          <ve-pie :data="consumerSex" :theme="options" ></ve-pie>
         </div>
       </el-col>
       <el-col :span="12">
@@ -60,13 +73,13 @@
       <el-col :span="12">
         <h3 class="mgb20">歌手性别比例</h3>
         <div style="background-color: white">
-          <ve-pie :data="singerSex"></ve-pie>
+          <ve-pie :data="singerSex"  :settings="chartSettings"></ve-pie>
         </div>
       </el-col>
       <el-col :span="12">
         <h3 class="mgb20">歌手国籍分布</h3>
         <div style="background-color: white">
-          <ve-line :data="country"></ve-line>
+          <ve-line :data="country"  :settings="chartSettings_line"></ve-line>
         </div>
       </el-col>
     </el-row>
@@ -74,18 +87,20 @@
 </template>
 <script>
 import {
-  // getConsumer,
   getCountOfConsumer,
-  // allSong,
   getCountOfSong,
-  // getAllSinger,
   getCountOfSinger,
-  // getAllSongList,
   getCountOfSongList,
 } from "../api/index";
 
 export default {
   data() {
+    this.chartSettings = {
+        roseType: 'radius'
+      },
+      this.chartSettings_line={
+        area: true
+      }
     return {
       consumerCount: 0, //用户总数
       songCount: 0, //歌曲总数
@@ -103,7 +118,7 @@ export default {
         ],
       },
       options: {
-        color: ["#87cefa", "#ffc0cb"],
+        color: ["#87cefa", "#ffc0cb"],//颜色
       },
 
       songStyle: {
@@ -218,7 +233,7 @@ export default {
 
 <style scoped>
 /**数量 */
-.grid-content {
+/* .grid-content {
   display: flex;
   align-items: center;
   height: 50px;
@@ -234,5 +249,46 @@ export default {
 .grid-num {
   font-size: 30px;
   font-weight: bold;
+}
+
+.card-left {
+  display: flex;
+  font-size: 3rem;
+} */
+
+
+
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100px;
+  padding-left: 20%;
+  text-align: center;
+  font-size: 60px;
+}
+
+
+
+.card-right {
+  flex: 1;
+  font-size: 14px;
+}
+
+.card-num {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h3 {
+  margin: 10px 0;
+  text-align: center;
+}
+.cav-info {
+  border-radius: 6px;
+  overflow: hidden;
+  height: 250px;
+  background-color: white;
 }
 </style>

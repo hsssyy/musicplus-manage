@@ -3,7 +3,7 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
-        <el-input size="mini" placeholder="请输入歌手名" class="handle-input" v-model="select_value" 
+        <el-input size="mini" placeholder="请输入歌手名" class="handle-input" v-model="select_value"
           @keyup.enter.native="searchEnter"></el-input>
         <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加歌手</el-button>
       </div>
@@ -33,14 +33,14 @@
       <el-table-column prop="introduction" label="简介" width="120" align="center"></el-table-column>
       <el-table-column label="歌曲管理" width="250" align="center">
         <template slot-scope="scope">
-          <el-button type="success" round  @click="songEdit(scope.row.id, scope.row.name)">歌曲管理</el-button>
+          <el-button type="success" round @click="songEdit(scope.row.id, scope.row.name)">歌曲管理</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作"  align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
-          <el-button  type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,8 +59,8 @@
     <el-dialog title="删除歌手" :append-to-body="true" :visible.sync="delVisible" width="300px" center>
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
-        <el-button size="mini" @click="delVisible = false">取消</el-button>
-        <el-button type="primary" size="mini" @click="deleteRow">确定</el-button>
+        <el-button size="mini" type="primary" @click="delVisible = false">取消</el-button>
+        <el-button size="mini" type="danger" @click="deleteRow">确定</el-button>
       </span>
     </el-dialog>
 
@@ -72,7 +72,9 @@
 
         <el-form-item label="性别" size="mini">
           <input type="radio" name="sex" value="0" v-model="form.sex" />&nbsp;女&nbsp;&nbsp;
-          <input type="radio" name="sex" value="1" v-model="form.sex" />&nbsp;男
+          <input type="radio" name="sex" value="1" v-model="form.sex" />&nbsp;男&nbsp;&nbsp;
+          <input type="radio" name="sex" value="2" v-model="form.sex" />&nbsp;组合&nbsp;&nbsp;
+          <input type="radio" name="sex" value="3" v-model="form.sex" />&nbsp;不明
         </el-form-item>
 
         <el-form-item label="生日" size="mini">
@@ -90,18 +92,21 @@
       </el-form>
       <span slot="footer">
         <el-button size="mini" @click="editVisible = false">取消</el-button>
-        <el-button size="mini" @click="editSave">确定</el-button>
+        <el-button size="mini" type="primary" @click="editSave">确定</el-button>
       </span>
     </el-dialog>
-<!--添加歌手弹出的对话框-->
-    <el-dialog title="添加歌手" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center>
+    <!--添加歌手弹出的对话框-->
+    <el-dialog title="添加歌手" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center
+      @close="closeDialog">
       <el-form :model="registerForm" ref="registerForm" label-width="80px" :rules="rules">
         <el-form-item prop="name" label="歌手" size="mini">
           <el-input v-model="registerForm.name" placeholder="歌手"></el-input>
         </el-form-item>
         <el-form-item label="性别" size="mini">
           <input type="radio" name="sex" value="0" v-model="registerForm.sex" />&nbsp;女&nbsp;&nbsp;
-          <input type="radio" name="sex" value="1" v-model="registerForm.sex" />&nbsp;男
+          <input type="radio" name="sex" value="1" v-model="registerForm.sex" />&nbsp;男&nbsp;&nbsp;
+          <input type="radio" name="sex" value="2" v-model="registerForm.sex" />&nbsp;组合&nbsp;&nbsp;
+          <input type="radio" name="sex" value="3" v-model="registerForm.sex" />&nbsp;不明
         </el-form-item>
 
         <el-form-item prop="birth" label="生日" size="mini">
@@ -111,6 +116,7 @@
         <el-form-item prop="introduction" label="简介" size="mini">
           <el-input v-model="registerForm.introduction" placeholder="简介"></el-input>
         </el-form-item>
+
         <el-form-item prop="location" label="地区" size="mini">
           <el-input v-model="registerForm.location" placeholder="地区"></el-input>
         </el-form-item>
@@ -149,7 +155,7 @@ export default {
       idx: -1, //当前选择删哪个歌手
       ids: [],//批量删除歌手
 
-      
+
       // 搜索框的值(双向数据绑定)
       select_value: "",
 
@@ -166,11 +172,10 @@ export default {
       //规则
       rules: {
         name: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: "请输入歌手名", trigger: "blur" },
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         introduction: [
-          { required: true, message: "请输入签名", trigger: "blur" },
+          { required: true, message: "请输入简介", trigger: "blur" },
         ],
         location: [{ required: true, message: "请输入地区", trigger: "blur" }],
       },
@@ -194,21 +199,6 @@ export default {
       return this.tableData;
     },
   },
-  // watch: {
-  //   //搜素框里面的内容发生变化的时候，搜素结果table列表的内容跟着它的内容发生变化
-  //   select_word: function () {
-  //     if (this.select_word == "") {
-  //       this.tableData = this.tempData;
-  //     } else {
-  //       this.tableData = [];
-  //       for (let item of this.tempData) {
-  //         if (item.username.includes(this.select_word)) {
-  //           this.tableData.push(item);
-  //         }
-  //       }
-  //     }
-  //   },
-  // },
   watch: {
     // 监听input输入框，若没东西了，就回复默认状态
     select_value: function () {
@@ -237,9 +227,9 @@ export default {
           this.total = res.total;
         })
     },
-    
 
-//模糊查询
+
+    //模糊查询
     searchEnter() {
       // 控制一下，如果用户没输入东西就不去搜索
       if (this.select_value === "") {
@@ -307,11 +297,11 @@ export default {
     //保存修改歌手信息
     editSave() {
       let d = this.form.birth;
-      if(d.length != 19){
-        let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+      if (d.length != 19) {
+        let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " 00:00:00";
         this.form.birth = datetime;
       }
-      
+
       updateSinger(this.form)
         .then((res) => {
           if (res) {
@@ -329,7 +319,7 @@ export default {
     //添加一个歌手
     addNewSinger() {
       let d = this.registerForm.birth;
-      let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+      let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " 00:00:00";
       this.registerForm.birth = datetime;
       addSinger(this.registerForm)
         .then((res) => {
@@ -340,12 +330,24 @@ export default {
             this.notify("添加失败", "error");
           }
         })
-        this.centerDialogVisible = false;
+      this.centerDialogVisible = false;
     },
     //转向歌曲管理
     songEdit(id, name) {
       this.$router.push({ path: `/Song`, query: { id, name } });
     },
+
+    // 关闭添加歌手的弹窗，置空表单
+    closeDialog() {
+      this.registerForm.name = ''
+      this.registerForm.sex = ''
+      this.registerForm.birth = ''
+      this.registerForm.introduction = ''
+      this.registerForm.location = ''
+      this.$refs.registerForm.resetFields()
+    },
+
+
   },
 };
 </script>

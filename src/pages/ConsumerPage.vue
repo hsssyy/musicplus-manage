@@ -1,49 +1,51 @@
 <template>
   <div class="table">
-      <div class="container">
-          <div class="handle-box">
-              <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
-              <el-input size="mini" placeholder="筛选相关用户" class="handle-input" v-model="select_value" id="select"
-                  @keyup.enter.native="searchEnter"></el-input>
+    <div class="container">
+      <div class="handle-box">
+        <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
+        <el-input size="mini" placeholder="筛选相关用户" class="handle-input" v-model="select_value" id="select"
+          @keyup.enter.native="searchEnter"></el-input>
 
-              <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加新用户</el-button>
-          </div>
+        <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加新用户</el-button>
       </div>
-<!-- 用户表 -->
-      <el-table size="mini" border style="width: 100%" height="600px" :data="data" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="40"></el-table-column>
-          <el-table-column label="用户图片" width="110" align="center">
-              <template slot-scope="scope">
-                  <div class="consumer-img">
-                      <img :src="getUrl(scope.row.avator)" style="width: 100%" />
-                  </div>
-                  <el-upload :action="uploadUrl(scope.row.id)" :on-success="handleAvatorSuccess">
-                      <el-button size="mini">更新图片</el-button>
-                  </el-upload>
-              </template>
-          </el-table-column>
-          <el-table-column prop="username" label="用户名" width="120" align="center"></el-table-column>
-          <el-table-column label="性别" align="center" width="50">
-              <template slot-scope="scope">
-                  {{ changeSex(scope.row.sex) }}
-              </template>
-          </el-table-column>
-          <el-table-column prop="email" label="电子邮箱" width="180" align="center"></el-table-column>
-          <el-table-column  prop="birth" label="生日" width="120" align="center"></el-table-column>
-          <el-table-column prop="introduction" label="签名" width="120" align="center"></el-table-column>
-          <el-table-column prop="location" label="地区" width="100" align="center"></el-table-column>
-          <el-table-column label="收藏"  width="200" align="center">
-              <template slot-scope="scope">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="goCollect(scope.row.id, scope.row.username)"></el-button>
-              </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center">
-              <template slot-scope="scope">
-                  <el-button  type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
-                  <el-button  type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
-              </template>
-          </el-table-column>
-      </el-table>
+    </div>
+    <!-- 用户表 -->
+    <el-table size="mini" border style="width: 100%" height="600px" :data="data"
+      @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="40"></el-table-column>
+      <el-table-column label="用户图片" width="110" align="center">
+        <template slot-scope="scope">
+          <div class="consumer-img">
+            <img :src="getUrl(scope.row.avator)" style="width: 100%" />
+          </div>
+          <el-upload :action="uploadUrl(scope.row.id)" :on-success="handleAvatorSuccess">
+            <el-button size="mini">更新图片</el-button>
+          </el-upload>
+        </template>
+      </el-table-column>
+      <el-table-column prop="username" label="用户名" width="120" align="center"></el-table-column>
+      <el-table-column label="性别" align="center" width="50">
+        <template slot-scope="scope">
+          {{ changeSex(scope.row.sex) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="email" label="电子邮箱" width="180" align="center"></el-table-column>
+      <el-table-column prop="birth" label="生日" width="120" align="center"></el-table-column>
+      <el-table-column prop="introduction" label="签名" width="120" align="center"></el-table-column>
+      <el-table-column prop="location" label="地区" width="100" align="center"></el-table-column>
+      <el-table-column label="收藏" width="200" align="center">
+        <template slot-scope="scope">
+          <el-button type="warning" icon="el-icon-star-off" circle @click="goCollect(scope.row.id, scope.row.username)">
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)"></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <!-- 
       layout:分页条布局
       prev:上页按钮
@@ -56,12 +58,12 @@
       <el-pagination background :current-page="currentPage" :page-size="pageSize" :total="total"
         layout="total,prev,pager,next" @current-change="handleCurrentChange"></el-pagination>
     </div>
-    
+
     <el-dialog title="删除用户" :append-to-body="true" :visible.sync="delVisible" width="300px" center>
       <div>删除不可恢复，是否确定删除？</div>
       <span slot="footer">
         <el-button size="mini" type="primary" @click="delVisible = false">取消</el-button>
-        <el-button size="mini"  type="danger"  @click="deleteRow">确定</el-button>
+        <el-button size="mini" type="danger" @click="deleteRow">确定</el-button>
       </span>
     </el-dialog>
 
@@ -78,10 +80,10 @@
           <input type="radio" name="sex" value="1" v-model="form.sex" />&nbsp;男
         </el-form-item>
 
-        <el-form-item prop="phone_num" label="手机号"  size="mini">
+        <el-form-item prop="phone_num" label="手机号" size="mini">
           <el-input v-model="form.phoneNum" placeholder="手机号"></el-input>
         </el-form-item>
-        
+
         <el-form-item prop="email" label="电子邮箱" size="mini">
           <el-input v-model="form.email" placeholder="电子邮箱"></el-input>
         </el-form-item>
@@ -100,13 +102,14 @@
       </el-form>
       <span slot="footer">
         <el-button size="mini" @click="editVisible = false">取消</el-button>
-        <el-button size="mini" @click="editSave">确定</el-button>
+        <el-button size="mini" type="primary"  @click="editSave">确定</el-button>
       </span>
     </el-dialog>
 
-    
+
     <!--添加用户弹出的对话框-->
-    <el-dialog title="添加新用户" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center  @close="closeDialog">
+    <el-dialog title="添加新用户" :append-to-body="true" :visible.sync="centerDialogVisible" width="400px" center
+      @close="closeDialog">
       <el-form :model="registerForm" ref="registerForm" label-width="80px" :rules="rules">
         <el-form-item prop="username" label="用户名" size="mini">
           <el-input v-model="registerForm.username" placeholder="用户名"></el-input>
@@ -119,7 +122,7 @@
           <input type="radio" name="sex" value="0" v-model="registerForm.sex" />&nbsp;女&nbsp;&nbsp;
           <input type="radio" name="sex" value="1" v-model="registerForm.sex" />&nbsp;男
         </el-form-item>
-        <el-form-item prop="phoneNum" label="手机号"  size="mini" >
+        <el-form-item prop="phoneNum" label="手机号" size="mini">
           <el-input v-model="registerForm.phoneNum" placeholder="手机号"></el-input>
         </el-form-item>
 
@@ -139,7 +142,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini"  @click="centerDialogVisible = false">取消</el-button>
+        <el-button size="mini" @click="centerDialogVisible = false">取消</el-button>
         <el-button type="primary" size="mini" @click="addNewConsumer">确定</el-button>
       </span>
     </el-dialog>
@@ -206,6 +209,7 @@ export default {
             trigger: ["blur", "change"],
           },
         ],
+        birth: [{ required: true, message: "请选择生日", trigger: "change" },],
         introduction: [
           { required: true, message: "请输入签名", trigger: "blur" },
         ],
@@ -248,7 +252,7 @@ export default {
     //获取当前页
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.getData();
+      this.getData(); 
     },
     //查询所有用户  以及分页
     getData() {
@@ -268,7 +272,7 @@ export default {
       } else {
         this.tableData = [];
         var username1 = this.select_value;
-        selectLikeUserName(username1).then((res) => {
+        selectLikeUserName(username1,this.currentPage).then((res) => {
           this.tableData = res.records;
           this.pageSize = res.size;
           this.total = res.total;
@@ -329,11 +333,11 @@ export default {
     //保存修改用户信息
     editSave() {
       let d = this.form.birth;
-      if(d.length !=19){//用来判断有没有修改日期
-        let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
-       this.form.birth = datetime;
+      if (d.length != 19) {//用来判断有没有修改日期
+        let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " 00:00:00";
+        this.form.birth = datetime;
       }
-     
+
       updateConsumer(this.form)
         .then((res) => {
           if (res) {
@@ -356,7 +360,7 @@ export default {
     addNewConsumer() {
       // let _this = this;
       let d = this.registerForm.birth;
-      let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" 00:00:00";
+      let datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " 00:00:00";
       this.registerForm.birth = datetime;
       addConsumer(this.registerForm)
         .then((res) => {
@@ -372,11 +376,10 @@ export default {
 
 
 
-    // 收藏功能未实现
-          //转向收藏
-          goCollect(id, name) {
-            this.$router.push({ path: `/Collect`, query: { id, name } });
-        },
+    //转向收藏
+    goCollect(id, name) {
+      this.$router.push({ path: `/Collect`, query: { id, name } });
+    },
 
     // 关闭添加用户的弹窗，置空表单
     closeDialog() {
@@ -400,7 +403,7 @@ export default {
 
 
 
-    
+
   },
 };
 </script>
@@ -427,5 +430,4 @@ export default {
   display: flex;
   justify-content: center;
 }
-
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="bar">
-        <el-row :gutter="20" class="mgb20">
+        <!-- <el-row :gutter="20" class="mgb20">
             <el-col :span="5">
                 <el-card>
                     <div class="grid-content">
@@ -41,7 +41,7 @@
                     </div>
                 </el-card>
             </el-col>
-        </el-row>
+        </el-row> -->
 
 
         <!-- <div class="handle-box">
@@ -49,7 +49,7 @@
                 @keyup.enter.native="searchEnter"></el-input>
             <el-button class="btn" type="primary" @click="addRole">添加新套餐</el-button>
         </div> -->
-        <el-table :data="data" style="width: 100%" height="600px">
+        <el-table :data="data" style="width: 100%" height="800px">
             <el-table-column prop="id" label="编号" width="180" align="center"> </el-table-column>
             <el-table-column prop="viptype" label="套餐类型" width="180" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"> </el-table-column>

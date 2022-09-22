@@ -1,8 +1,5 @@
-import { listenerCount } from 'node-notifier'
-import { compare } from 'semver'
 import Vue from 'vue'
 import Router from 'vue-router'
-//import { component } from 'vue/types/umd'
 
 Vue.use(Router)
 
@@ -60,22 +57,6 @@ export default new Router({
         {
           path: '/Vip',
           component: resolve => require(['../pages/VipPage.vue'], resolve)
-        },
-        ,
-        {
-          path: '/Auth',
-          component: resolve => require(['../pages/auth/index.vue'], resolve),
-          redirect: '/Auth/Roles',
-          children: [
-            {
-              path: 'Roles-List',
-              component: resolve => require(['../pages/auth/RolesList.vue'], resolve)
-            },
-            {
-              path: 'Auth-List',
-              component: resolve => require(['../pages/auth/AuthList.vue'], resolve)
-            },
-          ]
         },
       ]
     }

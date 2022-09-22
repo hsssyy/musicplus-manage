@@ -1,6 +1,6 @@
 <template>
   <div class="login-wrap">
-    <div class="ms-title">music 后台管理登录</div>
+    <div class="ms-title">Yep Music 后台管理登录</div>
     <div class="ms-login">
       <el-form :model="ruleForm" :rules="rules">
         <el-form-item prop="username">
@@ -26,8 +26,8 @@ export default {
   data: function () {
     return {
       ruleForm: {
-        username: "admin",
-        password: "1",
+        username: "",
+        password: "",
       },
       rules: {
         username: [
@@ -61,7 +61,8 @@ export default {
 <style scoped>
 .login-wrap {
   position: relative;
-  background: url("../assets/img/background.jpg");
+  background: url("../assets/img/1.jpg");
+  /* background-color: rgb(136, 202, 180); */
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
@@ -71,7 +72,7 @@ export default {
 
 .ms-title {
   position: absolute;
-  top: 50%;
+  top: 52%;
   width: 100%;
   margin-top: -230px;
   text-align: center;
@@ -83,7 +84,7 @@ export default {
 .ms-login {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 52%;
   width: 300px;
   height: 160px;
   margin-left: -190px;

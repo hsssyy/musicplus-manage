@@ -15,9 +15,9 @@
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="40"></el-table-column>
             <!-- 这里仅拿到数据库里歌曲、歌单的id,需转为名字 -->
-            <el-table-column prop="songName" label="歌曲" width="180" align="center"></el-table-column>
-            <el-table-column prop="title" label="歌单" width="120" align="center"></el-table-column>
-            <el-table-column prop="createTime" label="收藏时间" width="120" align="center"></el-table-column>
+            <el-table-column prop="songName" label="歌曲" width="200" align="center"></el-table-column>
+            <el-table-column prop="title" label="歌单" width="200" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="收藏时间" width="200" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.id)">
@@ -74,7 +74,7 @@
                     <input type="radio" name="type" value="1" v-model="addCollectForm.type" />&nbsp;歌单
                 </el-form-item>
                 <!-- 添加好像很麻烦，需要把输入的歌曲名、歌单名转为id,要验证该歌曲、歌单是否存在 -->
-                <el-form-item prop="song_list_id" label="歌曲名" size="mini">
+                <el-form-item prop="song_id" label="歌曲名" size="mini">
                     <el-input v-model="addCollectForm.song_id" placeholder="歌曲"></el-input>
                 </el-form-item>
                 <el-form-item prop="song_list_id" label="歌单名" size="mini">
@@ -92,10 +92,9 @@
 
 <script>
 import {
+    addCollect,
     getCollect,
     deleteCollect,
-    // updateCollect,
-    // addCollct,
     songByName,//根据歌曲名查找id
     deleteSomeCollect,
     songListByName,//根据歌单名查找id
@@ -136,20 +135,20 @@ export default {
 
             },
             //规则
-            // rules: {
-            //     song_id: [
-            //         { required: true, message: "请输入歌曲名", trigger: "blur" },
-            //     ],
-            //     song_list_id: [
-            //         { required: true, message: "请输入歌单名", trigger: "blur" },
-            //     ],
-            // },
+            rules: {
+                song_id: [
+                    { required: true, message: "请输入歌曲名", trigger: "blur" },
+                ],
+                song_list_id: [
+                    { required: true, message: "请输入歌单名", trigger: "blur" },
+                ],
+            },
             //添加____________________________________-----------------添加收藏好像很麻烦
             addCollectForm: {
                 user_id: "",
                 type: "",
-                songName: "",
-                songListName: "",
+                song_id: "",
+                song_list_id: "",
                 create_time: "",
             },
 
@@ -184,42 +183,41 @@ export default {
         //查询所有收藏  以及分页
         getData() {
             this.tableData = [],
-                getCollect(this.currentPage,this.userId).then((res) => {
+                getCollect(this.currentPage, this.userId).then((res) => {
                     // this.tableData = res.records;
                     this.pageSize = res.size;
                     this.total = res.total;
                     for (let item of res.records) {
-                        this.getSongs(item.type,item.songId,item.songListId,item);
-                     }
+                        this.getSongs(item.type, item.songId, item.songListId, item);
+                    }
                 })
         },
-         getSongs(type,songId,songListId,item) {
-            if(type==0){
+        getSongs(type, songId, songListId, item) {
+            if (type == 0) {
                 songBySongId(songId)
-                .then((res) => {
-                    let o = item;
-                    o.songName = res.name;
-                    this.tableData.push(o);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            }else{
+                    .then((res) => {
+                        let o = item;
+                        o.songName = res.name;
+                        this.tableData.push(o);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
                 getSongListOfId(songListId)
-                .then((res) => {
-                    let o = item;
-                    o.title = res.title;
-                    this.tableData.push(o);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    .then((res) => {
+                        let o = item;
+                        o.title = res.title;
+                        this.tableData.push(o);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             }
-            
+
         },
         //enter查询（回车搜索） 
         searchEnter() {
-            // 控制一下，如果用户没输入东西就不去搜索
             if (this.select_value === "") {
                 return
             } else {
@@ -296,18 +294,23 @@ export default {
         //在收藏添加歌曲或歌单前 ，需要获取该歌曲id，（可是歌曲还拼接了歌手名，单单输入歌曲名不行,还要输入歌手名）
         getId() {
             let _this = this;
-            var songName = _this.addCollectForm.songName;
-            var songListName = _this.addCollectForm.songListName;
-            if (this.addCollectForm.type = "0") {
-                songByName(songName).then((res) => {
-                    _this.addNewCollect(res.id);//调用添加歌曲的方法 发送请求
+            var songName = _this.addCollectForm.song_id;//歌曲名
+            var songListName = _this.addCollectForm.song_list_id;//歌单名
+            //  return alert(songListName)
+            if (this.addCollectForm.type = "1") {
+                //  return alert(songListName)
+                songListByName(songListName).then((res) => {
+                    console.log(res.id)
+                    _this.addNewCollect(res.id);//调用添加歌单的方法 发送请求
+                    return alert("nihao")
                 })
             } else {
-                songListByName(songListName).then((res) => {
-                    _this.addNewCollect(res.id);//调用添加歌单的方法 发送请求
+                songByName(songName).then((res) => {
+                    _this.addNewCollect(res.id);//调用添加歌曲的方法 发送请求
+                    return alert(songName)
                 })
             }
-            // return alert(this.addCollectForm.type)
+
         },
 
         //添加收藏
@@ -315,8 +318,12 @@ export default {
             let params = new URLSearchParams();
             if (this.addCollectForm.type = "0") {
                 params.append("songId", Id);
+                params.append("type", this.addCollectForm.type);
                 params.append("userId", this.userId);//用户id
-                addCollct(params)
+                params.append("songListId", Id);
+                console.log("-------------------------------------------")
+                console.log(this.userId)
+                addCollect(params)
                     .then((res) => {
                         if (res) {
                             this.notify("添加成功", "success");
@@ -327,9 +334,12 @@ export default {
                     })
 
             } else {
+                params.append("songId", Id);
+                params.append("type", this.addCollectForm.type);
+                params.append("userId", this.userId);//用户id
                 params.append("songListId", Id);
-                params.append("userId", this.userId);
-                addCollct(params)
+                // return alert(Id)
+                addCollect(params)
                     .then((res) => {
                         if (res) {
                             this.notify("添加成功", "success");
@@ -350,10 +360,6 @@ export default {
             this.addCollectForm.song_list_id = ''
             this.$refs.addCollectForm.resetFields()
         },
-
-
-
-
 
     },
 };

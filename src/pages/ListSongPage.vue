@@ -131,7 +131,12 @@ export default {
       let _this = this;
       var songName = _this.registerForm.singerName + "-" + _this.registerForm.songName;
       songByName(songName).then((res)=>{
-        _this.addSong(res.id);//调用添加歌曲的方法 发送请求
+        if(res){
+            _this.addSong(res.id);//调用添加歌曲的方法 发送请求
+        }else{
+          _this.notify("找不到该歌曲，添加失败","error");
+        }
+      
       })
     },
     //添加歌曲
@@ -148,6 +153,7 @@ export default {
           this.notify("添加失败","error");
         }
       })
+      this.centerDialogVisible=false;
     },
 
     //删除一条歌曲

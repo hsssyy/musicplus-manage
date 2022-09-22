@@ -79,7 +79,7 @@ export const songBySongId = (songId) => get(`song/songBySongId?songId=${songId}`
 //============歌单相关===========
 
 //根据歌单名字 查询该歌单对象
-export const songListByName = (name) => get(`songList/songListBySongId?name=${name}`)
+export const songListByName = (name) => get(`songList/songListByName?name=${name}`)
 //根据歌曲id 获取歌单对象
 export const getSongListOfId = (id) => get(`songList/getSongListInfoById?id=${id}`)
 
@@ -136,6 +136,7 @@ export const deleteSomeComment = (ids) => get(`comment/someDelete?id=${ids}`);//
 export const getCollect = (pn,userId) => get(`collect/getCollect?pn=${pn}&&userId=${userId}`);//获取收藏
 export const deleteCollect= (id) => get(`collect/deleteCollect?id=${id}`);//取消收藏
 export const deleteSomeCollect = (ids) => get(`collect/someDeleteCol?id=${ids}`);//取消多个收藏
+export const addCollect = (params) => post(`collect/add`,params);//添加收藏
 
 
 
