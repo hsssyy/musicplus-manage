@@ -232,33 +232,6 @@ export default {
 </script>
 
 <style scoped>
-/**数量 */
-/* .grid-content {
-  display: flex;
-  align-items: center;
-  height: 50px;
-}
-
-.grid-cont-center {
-  flex: 1;
-  text-align: center;
-  font-size: 14px;
-  color: rgb(47, 187, 157);
-}
-
-.grid-num {
-  font-size: 30px;
-  font-weight: bold;
-}
-
-.card-left {
-  display: flex;
-  font-size: 3rem;
-} */
-
-
-
-
 .card-content {
   display: flex;
   align-items: center;
@@ -267,6 +240,7 @@ export default {
   padding-left: 20%;
   text-align: center;
   font-size: 60px;
+  color: rgb(47, 187, 157);
 }
 
 
